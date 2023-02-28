@@ -3,6 +3,7 @@ import {
 	StyleSheet,
 	View,
 	Text,
+	Image,
 	TouchableOpacity,
 	Platform,
 	PermissionsAndroid,
@@ -15,6 +16,8 @@ import MapView, {
 } from "react-native-maps";
 import * as Location from "expo-location";
 import haversine from "haversine";
+import { MaterialIcons } from "@expo/vector-icons";
+import { colors, icons } from "../constants";
 
 const styles = StyleSheet.create({
 	container: {
@@ -46,6 +49,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		marginVertical: 20,
 		backgroundColor: "transparent",
+		// backgroundColor: "red",
 	},
 });
 
@@ -55,11 +59,16 @@ const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 
 // Set minimum distance to update data
-const MIN_DISTANCE = 0.015; // (km)
+const MIN_DISTANCE = 0.02; // (km)
 
-function MyMapScreen(props) {
+function TrackingRealtime(props) {
 	const [errorMsg, setErrorMsg] = useState(null);
-	//
+
+	const [followingButton, setFollwingButton] = useState({
+		following: true,
+		name: "gps-not-fixed",
+	});
+
 	const [prevCoordinate, setPrevCroodinate] = useState({});
 	const [routeCoordinates, setRouteCoordinates] = useState([]);
 	const [distanceTraveled, setDistanceTraveled] = useState(0);
@@ -96,6 +105,7 @@ function MyMapScreen(props) {
 			}
 			let position = await Location.getCurrentPositionAsync({});
 			console.log("===================== start ========================");
+			console.log(followingButton);
 
 			// console.log(position);
 			const { latitude, longitude } = position.coords;
@@ -112,7 +122,7 @@ function MyMapScreen(props) {
 				setDistanceTraveled(distanceTraveled + distanceCalculate);
 				setCoordinate(new AnimatedRegion(position.coords));
 			}
-		}, 1000);
+		}, 500);
 		return () => clearInterval(posotionInterval);
 	}, [routeCoordinates, distanceTraveled, prevCoordinate, coordinate]); // ;
 
@@ -121,11 +131,56 @@ function MyMapScreen(props) {
 			<MapView
 				style={styles.map}
 				showsUserLocation={true}
-				followsUserLocation={true}
+				followsUserLocation={followingButton.following}
 				loadingEnabled={true}
 				// region={getMapRegion()}
 			>
-				<Polyline coordinates={routeCoordinates} strokeWidth={5} />
+				<View
+					style={{
+						marginTop: 40,
+						flexDirection: "row",
+						alignItems: "center",
+						justifyContent: "flex-end",
+						backgroundColor: "transparent",
+					}}
+				>
+					<TouchableOpacity
+						onPress={() => {
+							if (followingButton.following === true) {
+								setFollwingButton({
+									following: false,
+									name: "gps-fixed",
+								});
+							} else {
+								setFollwingButton({
+									following: true,
+									name: "gps-not-fixed",
+								});
+							}
+						}}
+						style={{
+							width: 50,
+							height: 50,
+							// backgroundColor: "transparent",
+							backgroundColor: "transparent",
+							alignItems: "center",
+							justifyContent: "center",
+							marginRight: 2,
+						}}
+					>
+						<MaterialIcons
+							name={followingButton.name}
+							size={30}
+							color={colors.primary}
+						/>
+					</TouchableOpacity>
+				</View>
+
+				<Polyline
+					coordinates={routeCoordinates}
+					strokeWidth={5}
+					strokeColor={colors.primary}
+				/>
 				<Marker.Animated coordinate={coordinate} />
 			</MapView>
 			<View style={styles.buttonContainer}>
@@ -139,4 +194,4 @@ function MyMapScreen(props) {
 	);
 }
 
-export default MyMapScreen;
+export default TrackingRealtime;
