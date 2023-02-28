@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { MyMapView, UseHooks } from "./src/screens";
+import { MyMapView, UseHooks, Welcome, Login } from "./src/screens";
 
 export default function App() {
 	return <MyMapView />;

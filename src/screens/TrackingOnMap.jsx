@@ -53,14 +53,16 @@ const LATITUDE_DELTA = 0.009;
 const LONGITUDE_DELTA = 0.009;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
-const MIN_DISTANCE = 0.005;
+
+// Set minimum distance to update data
+const MIN_DISTANCE = 0.015; // (km)
 
 function MyMapScreen(props) {
-	const [position, setPosition] = useState(null);
 	const [errorMsg, setErrorMsg] = useState(null);
+	//
+	const [prevCoordinate, setPrevCroodinate] = useState({});
 	const [routeCoordinates, setRouteCoordinates] = useState([]);
 	const [distanceTraveled, setDistanceTraveled] = useState(0);
-	const [prevLatLng, setPrevLatLng] = useState({});
 	const [coordinate, setCoordinate] = useState(
 		new AnimatedRegion({
 			latitude: LATITUDE,
@@ -79,53 +81,40 @@ function MyMapScreen(props) {
 	});
 
 	// Calculate distance between previous and current position
-	const calcDistance = (newLatLng) => {
-		return haversine(prevLatLng, newLatLng) || 0;
+	const calcDistance = (newCoords) => {
+		return haversine(prevCoordinate, newCoords) || 0; // unit: km
 	};
 
 	// Request permission right after starting the app
 	useEffect(() => {
-		(async () => {
+		// After 1s, recall inner function
+		let posotionInterval = setInterval(async () => {
 			let { status } = await Location.requestForegroundPermissionsAsync();
 			if (status !== "granted") {
 				setErrorMsg("Permission to access location was denied");
 				return;
 			}
-
-			// Get current position
 			let position = await Location.getCurrentPositionAsync({});
+			console.log("===================== start ========================");
+
+			// console.log(position);
 			const { latitude, longitude } = position.coords;
-			const newCoordinates = {
-				latitude,
-				longitude,
-			};
+			const newCoords = { latitude, longitude };
 
-			console.log(
-				"================================================================"
-			);
-			console.log(calcDistance(newCoordinates));
-
-			// Check re-rendering screens when agent moves
-			if (
-				distanceTraveled == 0 ||
-				calcDistance(newCoordinates) >= MIN_DISTANCE
-			) {
-				// Set current values
-				setPosition(position);
-				setRouteCoordinates(routeCoordinates.concat([newCoordinates]));
-				setDistanceTraveled(distanceTraveled + calcDistance(newCoordinates));
-				setPrevLatLng(newCoordinates);
+			// Calculate distance between new and old coordinates - unit: km
+			let distanceCalculate = calcDistance(newCoords);
+			console.log(distanceCalculate);
+			if (distanceCalculate === 0 || distanceCalculate >= MIN_DISTANCE) {
+				// After calculating distance, current coordinate has no value, it's
+				// set all values
+				setRouteCoordinates(routeCoordinates.concat([newCoords]));
+				setPrevCroodinate(newCoords);
+				setDistanceTraveled(distanceTraveled + distanceCalculate);
 				setCoordinate(new AnimatedRegion(position.coords));
-
-				// Log values
-				console.log(position); // Not null
-				console.log(routeCoordinates); // Not null
-				console.log(distanceTraveled); // Not null
-				console.log(prevLatLng); // Not null
-				console.log(coordinate); // Not null
 			}
-		})();
-	});
+		}, 1000);
+		return () => clearInterval(posotionInterval);
+	}, [routeCoordinates, distanceTraveled, prevCoordinate, coordinate]); // ;
 
 	return (
 		<View style={styles.container}>
