@@ -83,10 +83,10 @@ function TrackingRealtime(props) {
 
 	// Set coordinates of the region
 	const getMapRegion = () => ({
-		latitude: position.coords.latitude,
-		longitude: position.coords.longitude,
-		latitudeDelta: position.coords.latitudeDelta,
-		longitudeDelta: position.coords.longitudeDelta,
+		latitude: prevCoordinate.latitude,
+		longitude: prevCoordinate.longitude,
+		latitudeDelta: 0.0922,
+		longitudeDelta: 0.0421,
 	});
 
 	// Calculate distance between previous and current position
@@ -98,24 +98,25 @@ function TrackingRealtime(props) {
 	useEffect(() => {
 		// After 1s, recall inner function
 		let posotionInterval = setInterval(async () => {
-			let { foregroundStatus } =
-				await Location.requestForegroundPermissionsAsync();
-			if (foregroundStatus !== "granted") {
+			// Grant location access || foregroundStatus, backgroundStatus
+			let foregroundStatus = await Location.requestForegroundPermissionsAsync();
+			if (foregroundStatus.status !== "granted") {
 				setErrorMsg("Foreground permission to access location was denied");
 				return;
 			}
+			// console.log(foregroundStatus.status);
 
-			let { backgroundStatus } =
-				await Location.requestBackgroundPermissionsAsync();
-			if (backgroundStatus !== "granted") {
-				setErrorMsg("Background permission to access location was denied");
+			let backgroundStatus = await Location.requestForegroundPermissionsAsync();
+			if (backgroundStatus.status !== "granted") {
+				setErrorMsg("Background Permission to access location was denied");
 				return;
 			}
+			// console.log(backgroundStatus.status);
 
-			let position = await Location.getCurrentPositionAsync({});
+			let position = await Location.getCurrentPositionAsync();
 			console.log("===================== start ========================");
+			console.log(routeCoordinates.length);
 			console.log(followingButton);
-
 			console.log(position);
 			const { latitude, longitude } = position.coords;
 			const newCoords = { latitude, longitude };
