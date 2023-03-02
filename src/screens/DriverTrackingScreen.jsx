@@ -59,7 +59,7 @@ const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 
 // Set minimum distance to update data
-const MIN_DISTANCE = 0.02; // (km)
+const MIN_DISTANCE = 0.015; // (km)
 
 function TrackingRealtime(props) {
 	const [errorMsg, setErrorMsg] = useState(null);
@@ -98,16 +98,25 @@ function TrackingRealtime(props) {
 	useEffect(() => {
 		// After 1s, recall inner function
 		let posotionInterval = setInterval(async () => {
-			let { status } = await Location.requestForegroundPermissionsAsync();
-			if (status !== "granted") {
-				setErrorMsg("Permission to access location was denied");
+			let { foregroundStatus } =
+				await Location.requestForegroundPermissionsAsync();
+			if (foregroundStatus !== "granted") {
+				setErrorMsg("Foreground permission to access location was denied");
 				return;
 			}
+
+			let { backgroundStatus } =
+				await Location.requestBackgroundPermissionsAsync();
+			if (backgroundStatus !== "granted") {
+				setErrorMsg("Background permission to access location was denied");
+				return;
+			}
+
 			let position = await Location.getCurrentPositionAsync({});
 			console.log("===================== start ========================");
 			console.log(followingButton);
 
-			// console.log(position);
+			console.log(position);
 			const { latitude, longitude } = position.coords;
 			const newCoords = { latitude, longitude };
 
@@ -122,7 +131,7 @@ function TrackingRealtime(props) {
 				setDistanceTraveled(distanceTraveled + distanceCalculate);
 				setCoordinate(new AnimatedRegion(position.coords));
 			}
-		}, 500);
+		}, 1000);
 		return () => clearInterval(posotionInterval);
 	}, [routeCoordinates, distanceTraveled, prevCoordinate, coordinate]); // ;
 
@@ -178,7 +187,7 @@ function TrackingRealtime(props) {
 
 				<Polyline
 					coordinates={routeCoordinates}
-					strokeWidth={5}
+					strokeWidth={4}
 					strokeColor={colors.primary}
 				/>
 				<Marker.Animated coordinate={coordinate} />

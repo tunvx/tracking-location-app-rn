@@ -1,6 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { TrackingRealtime, UseHooks, Welcome, Login } from "./src/screens";
+import {
+	TrackingRealtime,
+	UseHooks,
+	Welcome,
+	Login,
+	MapOrders,
+} from "./src/screens";
 
 export default function App() {
 	return <TrackingRealtime />;
