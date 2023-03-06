@@ -9,7 +9,7 @@ import {
 } from "./src/screens";
 
 export default function App() {
-	return <TrackingRealtime />;
+	return <MapOrders />;
 }
 
 const styles = StyleSheet.create({
