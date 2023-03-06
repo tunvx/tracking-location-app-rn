@@ -21,75 +21,29 @@ import MapView, {
 import * as Location from "expo-location";
 import haversine from "haversine";
 import { MaterialIcons } from "@expo/vector-icons";
-import { colors, fontSizes, icons } from "../constants";
+import { colors, fontSizes, icons, mockdata } from "../constants";
 
 function MapOrders(props) {
-	// show textinput to enter note
-	const [showInputText, setShowInputText] = useState(false);
-
-	// store new notification
-	const [note, setNote] = useState("");
-
-	// store current location
-	const [currentLocation, setCurrentLocation] = useState(null);
-
-	// store key to get order to save note
-	const [keyOfOrder, setKeyOfOrder] = useState("");
-
-	// raw data
-	const [onOrders, setOnOrders] = useState([
-		{
-			_id: 1,
-			customerName: "test1",
-			address: "Học Viện Báo chí và Tuyên truyền",
-			coordinates: {
-				latitude: 21.037950932035965,
-				longitude: 105.78801309985293,
-				latitudeDelta: 0.01,
-				longitudeDelta: 0.01,
-			},
-			note: "",
-		},
-		{
-			_id: 2,
-			customerName: "test2",
-			address: "Đại học Thương mại",
-			coordinates: {
-				latitude: 21.03688113367763,
-				longitude: 105.77501276857662,
-				latitudeDelta: 0.01,
-				longitudeDelta: 0.01,
-			},
-			note: "",
-		},
-		{
-			_id: 3,
-			customerName: "test3",
-			address: "Đại học Sư phạm Hà Nội",
-			coordinates: {
-				latitude: 21.0376565464535,
-				longitude: 105.78337862624798,
-				latitudeDelta: 0.01,
-				longitudeDelta: 0.01,
-			},
-			note: "",
-		},
-		{
-			_id: 4,
-			customerName: "test4",
-			address: "Đại học Ngoại Ngữ",
-			coordinates: {
-				latitude: 21.04182361360483,
-				longitude: 105.78116638784617,
-				latitudeDelta: 0.01,
-				longitudeDelta: 0.01,
-			},
-			note: "",
-		},
-	]);
+	// Store permissions
 	const [foregroundPermissions, setForegroundPermissions] = useState(null);
 	const [backgroundPermissions, setBackgroundPermissions] = useState(null);
 
+	// Show textinput to enter note
+	const [showInputText, setShowInputText] = useState(false);
+
+	// Store new notification
+	const [note, setNote] = useState("");
+
+	// Store current location
+	const [currentLocation, setCurrentLocation] = useState(null);
+
+	// Store key to get order to save note
+	const [keyOfOrder, setKeyOfOrder] = useState("");
+
+	// Mock data || array of orders
+	const onOrders = mockdata.onOrdersData;
+
+	// Fetch/GET data from api
 	useEffect(() => {
 		// onOrders.map((onOrder) => {
 		// 	onOrder.notification = "...";
@@ -112,9 +66,9 @@ function MapOrders(props) {
 			- Bản đồ hiển thị vị trí đánh dấu các đơn hàng.
 			- Nhấn vào điểm đánh dấu (đơn hàng) để hiển thị ra chú thích của đơn hàng đó.
 			- Nhấn vào chú thích, sẽ hiển thị 3 buttom: 	
-				+ Buttom 1: Nhấp để vào trạng thái ghi chú thích.
-				+ Buttom 2: Nhấp để thoát trạng thái ghi chú thích.
-				+ Buttom 3: Nhấp để đi đến màn hình chỉnh sửa chi tiết đơn hàng.
+				+ Button 1: Nhấp để vào trạng thái ghi chú thích.
+				+ Button 2: Nhấp để thoát trạng thái ghi chú thích.
+				+ Button 3: Nhấp để đi đến màn hình chỉnh sửa chi tiết đơn hàng.
 		*/
 	}
 
