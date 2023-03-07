@@ -5,4 +5,5 @@ export default {
 	google: "rgb(221, 80, 54)",
 	inactive: "rgba(0,0,0,0.5)",
 	locate: "rgba(0,0,0,0.8)",
+	textinputBackground: "rgba(220,220,220,0.92)",
 };

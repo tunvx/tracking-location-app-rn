@@ -1,0 +1,32 @@
+
+********************************
+QUY TRÌNH NGHIỆP VỤ KINH DOANH CÓ THỂ:
+
+        # Màn hình về tracking của grap                          => đã xong <<<<<<
+        # Màn hình OndersOnMapScreen:                            => đã xong <<<<<<
+            - Bản đồ có BUTTON để focus vị trí hiện tại.
+			- Bản đồ hiển thị vị trí đánh dấu các đơn hàng.
+			- Nhấn vào điểm đánh dấu (đơn hàng) để hiển thị ra chú thích của đơn hàng đó.
+			- Nhấn vào chú thích, sẽ hiển thị 4 buttom: 	
+				+ Button 1: Nhấp để vào trạng thái ghi chú thích.
+				+ Button 2: Nhấp để thoát trạng thái ghi chú thích.
+				+ Button 3: Nhấp để đi đến màn hình chỉnh sửa chi tiết đơn hàng.
+                + Button 4: Nhấp để xác nhận đơn hàng đã được giao: 
+                    + Hệ thống lưu lại vị trí, thời gian, khoảng cách hiện tại, tính toán khoảng cách với địa điểm ban đầu
+                >>> Ví dụ khi đến nơi gọi điện, khách hàng báo chiều giao có thể note nhanh thời gian giao hàng.
+
+
+        # Màn hình cho phép tạo, chỉnh sửa thông tin đơn hàng        => đã xong <<<<<<
+
+        # Màn hình cho phép nhập các đơn hàng theo uid              => làm tối giản >>>
+
+        # Màn hình về mô phỏng tuyến đường của một anh grap         => làm tối giản >>> 
+        
+
+        # Màn hình trang chủ grap - hiển thị ???
+            
+        # Màn hình trang chủ admin - - hiển thị ???
+
+            
+
+        

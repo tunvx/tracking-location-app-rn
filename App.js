@@ -1,15 +1,17 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import { mockdata } from "./src/constants";
 import {
 	TrackingRealtime,
 	UseHooks,
 	Welcome,
 	Login,
 	MapOrders,
+	EditOrderDetails,
 } from "./src/screens";
 
 export default function App() {
-	return <MapOrders />;
+	return <EditOrderDetails order={mockdata.onOrdersData[0]} />;
 }
 
 const styles = StyleSheet.create({

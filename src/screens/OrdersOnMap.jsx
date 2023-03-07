@@ -2,8 +2,10 @@ import React, { useState, useEffect, Component } from "react";
 import {
 	StyleSheet,
 	View,
+	SafeAreaView,
 	Text,
 	Image,
+	Alert,
 	TouchableOpacity,
 	Platform,
 	PermissionsAndroid,
@@ -20,7 +22,7 @@ import MapView, {
 } from "react-native-maps";
 import * as Location from "expo-location";
 import haversine from "haversine";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors, fontSizes, icons, mockdata } from "../constants";
 
 function MapOrders(props) {
@@ -42,6 +44,11 @@ function MapOrders(props) {
 
 	// Mock data || array of orders
 	const onOrders = mockdata.onOrdersData;
+
+	const [followingButton, setFollwingButton] = useState({
+		following: true,
+		name: "gps-fixed",
+	});
 
 	// Fetch/GET data from api
 	useEffect(() => {
@@ -77,7 +84,7 @@ function MapOrders(props) {
 			<MapView
 				style={styles.map}
 				showsUserLocation={true}
-				// followsUserLocation={true}
+				followsUserLocation={followingButton.following}
 				loadingEnabled={true}
 				// region={getMapRegion()}
 				initialRegion={{
@@ -87,6 +94,62 @@ function MapOrders(props) {
 					longitudeDelta: 0.01,
 				}}
 			>
+				<View
+					style={{
+						marginTop: 40,
+						flexDirection: "column",
+						alignItems: "flex-end",
+						justifyContent: "flex-end",
+						backgroundColor: "transparent",
+					}}
+				>
+					<TouchableOpacity
+						onPress={() => {
+							if (followingButton.following === true) {
+								setFollwingButton({
+									following: false,
+									name: "gps-not-fixed",
+								});
+							} else {
+								setFollwingButton({
+									following: true,
+									name: "gps-fixed",
+								});
+							}
+						}}
+						style={{
+							width: 45,
+							height: 45,
+							backgroundColor: "transparent", // red transparent
+							alignItems: "center",
+							justifyContent: "center",
+							marginRight: 2,
+							marginBottom: 5,
+						}}
+					>
+						<MaterialIcons
+							name={followingButton.name}
+							size={34}
+							color={colors.primary}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => {
+							setNote("");
+							setShowInputText(false);
+						}}
+						style={{
+							width: 45,
+							height: 45,
+							backgroundColor: "transparent", // red transparent
+							alignItems: "center",
+							justifyContent: "center",
+							marginRight: 2,
+						}}
+					>
+						<MaterialIcons name="cancel" size={34} color={colors.primary} />
+					</TouchableOpacity>
+				</View>
 				{onOrders.map((onOrder) => (
 					<Marker
 						// step 1
@@ -122,13 +185,13 @@ function MapOrders(props) {
 							color: "black",
 							fontSize: 20,
 							marginLeft: 20,
-							paddingLeft: 8,
+							paddingLeft: 6,
 							width: "60%",
 						}}
 						placeholder=" Nhập chú thích"
 						placeholderTextColor={colors.placeholderColor}
 					></TextInput>
-					<TouchableOpacity // Confirm note
+					<TouchableOpacity // Button used to confirm save notes
 						onPress={() => {
 							onOrders.map((onOrder) => {
 								if (onOrder._id === keyOfOrder) {
@@ -140,36 +203,55 @@ function MapOrders(props) {
 							setShowInputText(false);
 						}}
 						style={{
-							backgroundColor: colors.primary,
+							backgroundColor: "transparent",
 							width: 32,
 							height: 32,
 							margin: 2,
 							marginLeft: 10,
 						}}
-					></TouchableOpacity>
-					<TouchableOpacity // Cancel note
+					>
+						<MaterialIcons
+							name="check-circle"
+							size={35}
+							color={colors.primary}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity // Button used to edit order details
+						onPress={() => {}}
+						style={{
+							backgroundColor: "transparent",
+							width: 32,
+							height: 32,
+							margin: 2,
+							marginLeft: 10,
+						}}
+					>
+						<MaterialCommunityIcons
+							name="note-edit"
+							size={36}
+							color={colors.primary}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity // Button used to confirm the order has been received
 						onPress={() => {
 							setNote("");
 							setShowInputText(false);
+							Alert.alert("Đã xác nhận giao hàng thành công");
 						}}
 						style={{
-							backgroundColor: colors.primary,
+							backgroundColor: "transparent",
 							width: 32,
 							height: 32,
 							margin: 2,
 							marginLeft: 10,
 						}}
-					></TouchableOpacity>
-					<TouchableOpacity // Edit order details
-						onPress={() => {}}
-						style={{
-							backgroundColor: colors.primary,
-							width: 32,
-							height: 32,
-							margin: 2,
-							marginLeft: 10,
-						}}
-					></TouchableOpacity>
+					>
+						<MaterialCommunityIcons
+							name="truck-delivery"
+							size={36}
+							color={colors.primary}
+						/>
+					</TouchableOpacity>
 				</View>
 			)}
 		</View>
@@ -205,8 +287,9 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: "row",
 		marginVertical: 20,
-		backgroundColor: "transparent",
+		backgroundColor: colors.textinputBackground,
 		borderColor: colors.primary,
+		paddingVertical: 6,
 		// borderWidth: 1,
 		width: "100%",
 		marginBottom: "90%",
