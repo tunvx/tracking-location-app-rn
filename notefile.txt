@@ -16,11 +16,11 @@ QUY TRÌNH NGHIỆP VỤ KINH DOANH CÓ THỂ:
                 >>> Ví dụ khi đến nơi gọi điện, khách hàng báo chiều giao có thể note nhanh thời gian giao hàng.
 
 
-        # Màn hình cho phép tạo, chỉnh sửa thông tin đơn hàng        => đã xong <<<<<<
+        # Màn hình cho phép tạo, chỉnh sửa thông tin đơn hàng                               => đã xong <<<<<<
 
-        # Màn hình cho phép nhập các đơn hàng theo uid              => làm tối giản >>>
+        # Màn hình cho phép nhập các đơn hàng mới, và nhập cả uid cho nó (theo ngày)        => đã xong <<<<<<
 
-        # Màn hình về mô phỏng tuyến đường của một anh grap         => làm tối giản >>> 
+        # Màn hình về mô phỏng tuyến đường của một anh grap                                 => làm tối giản >>> 
         
 
         # Màn hình trang chủ grap - hiển thị ???

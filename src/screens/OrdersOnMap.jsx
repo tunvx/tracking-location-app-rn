@@ -80,7 +80,7 @@ function MapOrders(props) {
 	}
 
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<MapView
 				style={styles.map}
 				showsUserLocation={true}
@@ -254,7 +254,7 @@ function MapOrders(props) {
 					</TouchableOpacity>
 				</View>
 			)}
-		</View>
+		</SafeAreaView>
 	);
 }
 

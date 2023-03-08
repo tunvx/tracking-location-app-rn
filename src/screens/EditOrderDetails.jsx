@@ -17,48 +17,48 @@ function EditOrderDetails(props) {
 
 	return (
 		<SafeAreaView style={{ backgroundColor: "white", flex: 100 }}>
-			<View style={styles.cellTitle}>
-				<Text style={styles.cellTextTitleStyle}>Thông tin đơn giao</Text>
+			<View style={styles.cellHead}>
+				<Text style={styles.textTitleStyle}>Thông tin đơn giao</Text>
 			</View>
-			<View style={styles.cellMain}>
-				<View style={styles.cellInfo}>
-					<Text style={styles.cellInfoTextStyle}>Mã đơn hàng:</Text>
+			<View style={styles.cellMiddle}>
+				<View style={styles.cellMiddleChild}>
+					<Text style={styles.textMiddleStyle}>Mã đơn hàng:</Text>
 					<TextInput
 						defaultValue={order._uid.toString()}
-						style={styles.cellTextInputStyle}
+						style={styles.textInputMiddleStyle}
 						placeholder="Nhập ..."
 					></TextInput>
 					<TouchableOpacity>
 						<Entypo name="pencil" size={22} color="black" />
 					</TouchableOpacity>
 				</View>
-				<View style={styles.cellInfo}>
-					<Text style={styles.cellInfoTextStyle}>Tên loại hàng: </Text>
+				<View style={styles.cellMiddleChild}>
+					<Text style={styles.textMiddleStyle}>Tên loại hàng: </Text>
 					<TextInput
 						defaultValue={order.productName.toString()}
-						style={styles.cellTextInputStyle}
+						style={styles.textInputMiddleStyle}
 						placeholder="Nhập ..."
 					></TextInput>
 					<TouchableOpacity>
 						<Entypo name="pencil" size={22} color="black" />
 					</TouchableOpacity>
 				</View>
-				<View style={styles.cellInfo}>
-					<Text style={styles.cellInfoTextStyle}>Người nhận: </Text>
+				<View style={styles.cellMiddleChild}>
+					<Text style={styles.textMiddleStyle}>Người nhận: </Text>
 					<TextInput
 						defaultValue={order.customerName}
-						style={styles.cellTextInputStyle}
+						style={styles.textInputMiddleStyle}
 						placeholder="Nhập ..."
 					></TextInput>
 					<TouchableOpacity>
 						<Entypo name="pencil" size={22} color="black" />
 					</TouchableOpacity>
 				</View>
-				<View style={styles.cellInfo}>
-					<Text style={styles.cellInfoTextStyle}>Địa chỉ giao:</Text>
+				<View style={styles.cellMiddleChild}>
+					<Text style={styles.textMiddleStyle}>Địa chỉ giao:</Text>
 					<TextInput
 						defaultValue={order.address.toString()}
-						style={styles.cellTextInputStyle}
+						style={styles.textInputMiddleStyle}
 						placeholder="Nhập ..."
 					></TextInput>
 					<TouchableOpacity>
@@ -66,33 +66,33 @@ function EditOrderDetails(props) {
 					</TouchableOpacity>
 				</View>
 
-				<View style={styles.cellInfo}>
-					<Text style={styles.cellInfoTextStyle}>Người giao:</Text>
+				<View style={styles.cellMiddleChild}>
+					<Text style={styles.textMiddleStyle}>Người giao:</Text>
 					<TextInput
 						defaultValue={order.deliverName.toString()}
-						style={styles.cellTextInputStyle}
+						style={styles.textInputMiddleStyle}
 						placeholder="Nhập ..."
 					></TextInput>
 					<TouchableOpacity>
 						<Entypo name="pencil" size={22} color="black" />
 					</TouchableOpacity>
 				</View>
-				<View style={styles.cellInfo}>
-					<Text style={styles.cellInfoTextStyle}>Chú thích:</Text>
+				<View style={styles.cellMiddleChild}>
+					<Text style={styles.textMiddleStyle}>Chú thích:</Text>
 					<TextInput
 						defaultValue={order.note.toString()}
-						style={styles.cellTextInputStyle}
+						style={styles.textInputMiddleStyle}
 						placeholder="Nhập ..."
 					></TextInput>
 					<TouchableOpacity>
 						<Entypo name="pencil" size={22} color="black" />
 					</TouchableOpacity>
 				</View>
-				<View style={styles.cellInfo}>
-					<Text style={styles.cellInfoTextStyle}>Chú thích:</Text>
+				<View style={styles.cellMiddleChild}>
+					<Text style={styles.textMiddleStyle}>Chú thích:</Text>
 					<TextInput
 						defaultValue={order.note.toString()}
-						style={styles.cellTextInputStyle}
+						style={styles.textInputMiddleStyle}
 						placeholder="Nhập ..."
 					></TextInput>
 					<TouchableOpacity>
@@ -101,7 +101,7 @@ function EditOrderDetails(props) {
 				</View>
 				<View
 					style={{
-						...styles.cellInfo,
+						...styles.cellMiddleChild,
 						backgroundColor: colors.textinputBackground,
 					}}
 				>
@@ -125,7 +125,7 @@ function EditOrderDetails(props) {
 					backgroundColor: colors.textinputBackground,
 				}}
 			></View>
-			<View style={styles.cellStatusStyle}>
+			<View style={styles.cellTail}>
 				<View
 					style={{
 						height: 25,
@@ -138,9 +138,9 @@ function EditOrderDetails(props) {
 				>
 					<Text style={{ fontSize: 14 }}>Thông tin trạng thái giao hàng</Text>
 				</View>
-				<View style={styles.cellInfoStatusStyle}>
-					<Text style={styles.cellStatusTextStyle}>Giá sản phẩm</Text>
-					<Text style={styles.cellStatusTextStyle}>
+				<View style={styles.cellTailChild}>
+					<Text style={styles.textTailStyle}>Giá sản phẩm</Text>
+					<Text style={styles.textTailStyle}>
 						{"Thành tiền: " +
 							order.price.toLocaleString("vi", {
 								style: "currency",
@@ -148,17 +148,17 @@ function EditOrderDetails(props) {
 							})}
 					</Text>
 				</View>
-				<View style={styles.cellInfoStatusStyle}>
-					<Text style={styles.cellStatusTextStyle}>Trạng thái giao hàng</Text>
-					<Text style={styles.cellStatusTextStyle}>Giao thành công</Text>
-				</View>
-				<View style={styles.cellInfoStatusStyle}>
-					<Text style={styles.cellStatusTextStyle}>Đánh giá từ khách hàng</Text>
-					<Text style={styles.cellStatusTextStyle}>
-						Không nhận được đánh giá
+				<View style={styles.cellTailChild}>
+					<Text style={styles.textTailStyle}>Trạng thái giao hàng</Text>
+					<Text style={styles.textTailStyle}>
+						{order.delivered === true ? "Giao thành công" : "Đang giao hàng"}
 					</Text>
 				</View>
-				<View style={styles.cellInfoStatusStyle}></View>
+				<View style={styles.cellTailChild}>
+					<Text style={styles.textTailStyle}>Đánh giá từ khách hàng</Text>
+					<Text style={styles.textTailStyle}>Không nhận được đánh giá</Text>
+				</View>
+				<View style={styles.cellTailChild}></View>
 			</View>
 		</SafeAreaView>
 	);
@@ -171,25 +171,24 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 
-	cellTitle: {
+	cellHead: {
 		flex: 10,
 		backgroundColor: "rgb(173, 216, 230)",
 		alignItems: "center",
 		justifyContent: "center",
 	},
 
-	cellTextTitleStyle: { fontSize: fontSizes.h1 },
+	textTitleStyle: { fontSize: fontSizes.h1 },
 
-	cellMain: {
+	cellMiddle: {
 		flex: 60,
 		backgroundColor: colors.textinputBackground,
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		// marginBottom: 6,
 	},
 
-	cellInfo: {
+	cellMiddleChild: {
 		marginVertical: 10,
 		backgroundColor: "white",
 		flexDirection: "row",
@@ -197,13 +196,13 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 	},
 
-	cellInfoTextStyle: {
+	textMiddleStyle: {
 		fontSize: fontSizes.h5,
 		backgroundColor: "white",
 		width: "28%",
 		paddingLeft: 5,
 	},
-	cellTextInputStyle: {
+	textInputMiddleStyle: {
 		fontSize: fontSizes.h5,
 		backgroundColor: "white",
 		width: "50%",
@@ -211,7 +210,7 @@ const styles = StyleSheet.create({
 		color: "black",
 	},
 
-	cellStatusStyle: {
+	cellTail: {
 		flex: 30,
 		backgroundColor: "white",
 		flexDirection: "column",
@@ -219,7 +218,7 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 	},
 
-	cellInfoStatusStyle: {
+	cellTailChild: {
 		flexDirection: "row",
 		marginTop: 6,
 		borderTopWidth: 1,
@@ -229,7 +228,7 @@ const styles = StyleSheet.create({
 		width: "95%",
 	},
 
-	cellStatusTextStyle: {
+	textTailStyle: {
 		fontSize: fontSizes.h6,
 		backgroundColor: "white",
 		paddingLeft: 5,

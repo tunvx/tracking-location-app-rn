@@ -8,10 +8,11 @@ import {
 	Login,
 	MapOrders,
 	EditOrderDetails,
+	ImportOnOrders,
 } from "./src/screens";
 
 export default function App() {
-	return <EditOrderDetails order={mockdata.onOrdersData[0]} />;
+	return <ImportOnOrders />;
 }
 
 const styles = StyleSheet.create({
