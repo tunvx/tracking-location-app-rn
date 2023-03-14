@@ -5,15 +5,26 @@ import {
 	TextInput,
 	Image,
 	SafeAreaView,
+	ScrollView,
 	StyleSheet,
 	TouchableOpacity,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { colors, mockdata, fontSizes } from "../constants";
+import { DriverToolBar } from "../components";
 
 function EditOrderDetails(props) {
-	const order = mockdata.onOrdersData[0];
+	// const order = mockdata.onOrdersData[0];
+	// const order = props.route.params.order;
+
+	const [order, setOrder] = useState(props.route.params.order);
+
+	useEffect(() => {
+		console.log(">>>starting order>>>>");
+		console.log(props);
+		console.log(order);
+	}, []);
 
 	return (
 		<SafeAreaView style={{ backgroundColor: "white", flex: 100 }}>
@@ -24,7 +35,7 @@ function EditOrderDetails(props) {
 				<View style={styles.cellMiddleChild}>
 					<Text style={styles.textMiddleStyle}>Mã đơn hàng:</Text>
 					<TextInput
-						defaultValue={order._uid.toString()}
+						defaultValue={order._uid.toString() || ""}
 						style={styles.textInputMiddleStyle}
 						placeholder="Nhập ..."
 					></TextInput>
@@ -99,6 +110,18 @@ function EditOrderDetails(props) {
 						<Entypo name="pencil" size={22} color="black" />
 					</TouchableOpacity>
 				</View>
+				<View style={styles.cellMiddleChild}>
+					<Text style={styles.textMiddleStyle}>Chú thích:</Text>
+					<TextInput
+						defaultValue={order.note.toString()}
+						style={styles.textInputMiddleStyle}
+						placeholder="Nhập ..."
+					></TextInput>
+					<TouchableOpacity>
+						<Entypo name="pencil" size={22} color="black" />
+					</TouchableOpacity>
+				</View>
+
 				<View
 					style={{
 						...styles.cellMiddleChild,
@@ -138,39 +161,51 @@ function EditOrderDetails(props) {
 				>
 					<Text style={{ fontSize: 14 }}>Thông tin trạng thái giao hàng</Text>
 				</View>
-				<View style={styles.cellTailChild}>
-					<Text style={styles.textTailStyle}>Giá sản phẩm</Text>
-					<Text style={styles.textTailStyle}>
-						{"Thành tiền: " +
-							order.price.toLocaleString("vi", {
-								style: "currency",
-								currency: "VND",
-							})}
-					</Text>
-				</View>
-				<View style={styles.cellTailChild}>
-					<Text style={styles.textTailStyle}>Trạng thái giao hàng</Text>
-					<Text style={styles.textTailStyle}>
-						{order.delivered === true ? "Giao thành công" : "Đang giao hàng"}
-					</Text>
-				</View>
-				<View style={styles.cellTailChild}>
-					<Text style={styles.textTailStyle}>Đánh giá từ khách hàng</Text>
-					<Text style={styles.textTailStyle}>Không nhận được đánh giá</Text>
-				</View>
-				<View style={styles.cellTailChild}></View>
+				<ScrollView style={{ width: "95%" }}>
+					<View style={styles.cellTailChild}>
+						<Text style={styles.textTailStyle}>Giá sản phẩm</Text>
+						<Text style={styles.textTailStyle}>
+							{"Thành tiền: " +
+								order.price.toLocaleString("vi", {
+									style: "currency",
+									currency: "VND",
+								})}
+						</Text>
+					</View>
+					<View style={styles.cellTailChild}>
+						<Text style={styles.textTailStyle}>Trạng thái giao hàng</Text>
+						<Text style={styles.textTailStyle}>
+							{order.delivered === true ? "Giao thành công" : "Đang giao hàng"}
+						</Text>
+					</View>
+					{order.delivered === true && (
+						<View style={styles.cellTailChild}>
+							<Text style={styles.textTailStyle}>Thời điểm giao</Text>
+							<Text style={styles.textTailStyle}>
+								{order.receivingTime.toString()}
+							</Text>
+						</View>
+					)}
+					{order.delivered === true && (
+						<View style={styles.cellTailChild}>
+							<Text style={styles.textTailStyle}>Thông tin vị trí giao</Text>
+							<Text style={styles.textTailStyle}>
+								Số 117, ngõ 133, Xuân Thủy
+							</Text>
+						</View>
+					)}
+					<View style={styles.cellTailChild}>
+						<Text style={styles.textTailStyle}>Đánh giá từ khách hàng</Text>
+						<Text style={styles.textTailStyle}>Không nhận được đánh giá</Text>
+					</View>
+				</ScrollView>
 			</View>
+			<DriverToolBar />
 		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
-		...StyleSheet.absoluteFillObject,
-		justifyContent: "flex-end",
-		alignItems: "center",
-	},
-
 	cellHead: {
 		flex: 10,
 		backgroundColor: "rgb(173, 216, 230)",
@@ -178,18 +213,26 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 
-	textTitleStyle: { fontSize: fontSizes.h1 },
-
 	cellMiddle: {
-		flex: 60,
+		flex: 54,
 		backgroundColor: colors.textinputBackground,
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
 	},
 
+	cellTail: {
+		flex: 30,
+		backgroundColor: "white",
+		flexDirection: "column",
+		alignItems: "center",
+		justifyContent: "flex-start",
+	},
+
+	textTitleStyle: { fontSize: fontSizes.h1 },
+
 	cellMiddleChild: {
-		marginVertical: 10,
+		marginVertical: 5,
 		backgroundColor: "white",
 		flexDirection: "row",
 		paddingVertical: 8,
@@ -208,14 +251,6 @@ const styles = StyleSheet.create({
 		width: "50%",
 		marginHorizontal: 2,
 		color: "black",
-	},
-
-	cellTail: {
-		flex: 30,
-		backgroundColor: "white",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "flex-start",
 	},
 
 	cellTailChild: {

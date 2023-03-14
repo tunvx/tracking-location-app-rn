@@ -22,5 +22,6 @@ export const Heading = styled(Text)`
 
 // AppRegistry.registerComponent();
 import UIButton from "./UIButton";
+import DriverToolBar from "./DriverToolBar";
 
-export { UIButton };
+export { UIButton, DriverToolBar };

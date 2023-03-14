@@ -1,6 +1,6 @@
 const onOrdersData = [
 	{
-		_uid: 1,
+		_uid: "001",
 		customerName: "Test 1",
 		productName: "Product 1",
 		deliverName: "Diliver 1",
@@ -13,10 +13,10 @@ const onOrdersData = [
 		},
 		note: "",
 		price: 125000,
-		delivered: "false",
+		delivered: true,
 	},
 	{
-		_uid: 2,
+		_uid: "002",
 		customerName: "Test 2",
 		productName: "Product 2",
 		deliverName: "Diliver 1",
@@ -29,10 +29,10 @@ const onOrdersData = [
 		},
 		note: "",
 		price: 125000,
-		delivered: "false",
+		delivered: false,
 	},
 	{
-		_uid: 3,
+		_uid: "003",
 		customerName: "Test 3",
 		productName: "Product 3",
 		deliverName: "Diliver 2",
@@ -45,10 +45,10 @@ const onOrdersData = [
 		},
 		note: "",
 		price: 125000,
-		delivered: "false",
+		delivered: false,
 	},
 	{
-		_uid: 4,
+		_uid: "004",
 		customerName: "Test 4",
 		productName: "Product 4",
 		deliverName: "Diliver 2",
@@ -61,12 +61,13 @@ const onOrdersData = [
 		},
 		note: "",
 		price: 125000,
-		delivered: "false",
+		delivered: false,
 	},
 ];
 
 const ordersData = [
 	{
+		_uid: "001",
 		customerName: "Test 1",
 		productName: "Product 1",
 		deliverName: "Diliver 1",
@@ -79,8 +80,10 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 	},
 	{
+		_uid: "002",
 		customerName: "Test 2",
 		productName: "Product 2",
 		deliverName: "Diliver 1",
@@ -93,8 +96,10 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 	},
 	{
+		_uid: "003",
 		customerName: "Test 3",
 		productName: "Product 3",
 		deliverName: "Diliver 2",
@@ -107,8 +112,10 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 	},
 	{
+		_uid: "004",
 		customerName: "Test 4",
 		productName: "Product 4",
 		deliverName: "Diliver 2",
@@ -121,8 +128,10 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 	},
 	{
+		_uid: "005",
 		customerName: "Test 5",
 		productName: "Product 5",
 		deliverName: "Diliver 5",
@@ -135,9 +144,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.04207029258441, 105.78695042637708
 	},
 	{
+		_uid: "006",
 		customerName: "Test 6",
 		productName: "Product 6",
 		deliverName: "Diliver 6",
@@ -151,9 +162,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.03791320666469, 105.79255837934738
 	},
 	{
+		_uid: "007",
 		customerName: "Test 7",
 		productName: "Product 7",
 		deliverName: "Diliver 7",
@@ -166,9 +179,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.031882362811345, 105.78185230579773
 	},
 	{
+		_uid: "0070",
 		customerName: "Test 8",
 		productName: "Product 8",
 		deliverName: "Diliver 7",
@@ -181,9 +196,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.02539166233209, 105.78627454840549
 	},
 	{
+		_uid: "009",
 		customerName: "Test 9",
 		productName: "Product 9",
 		deliverName: "Diliver 8",
@@ -196,9 +213,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.035544268916908, 105.79462402434051
 	},
 	{
+		_uid: "0010",
 		customerName: "Test 10",
 		productName: "Product 10",
 		deliverName: "Diliver 2",
@@ -211,9 +230,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.035886614888376, 105.79726253450076 21.035968673097962, 105.79745088372172
 	},
 	{
+		_uid: "0011",
 		customerName: "Test 11",
 		productName: "Product 11",
 		deliverName: "Diliver 4",
@@ -226,9 +247,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.03585869767535, 105.7892165967139
 	},
 	{
+		_uid: "0012",
 		customerName: "Test 12",
 		productName: "Product 12",
 		deliverName: "Diliver 6",
@@ -241,9 +264,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.03483622316015, 105.78492993455721
 	},
 	{
+		_uid: "0013",
 		customerName: "Test 13",
 		productName: "Product 13",
 		deliverName: "Diliver 5",
@@ -256,9 +281,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.03560002752467, 105.79791206837882
 	},
 	{
+		_uid: "0014",
 		customerName: "Test 14",
 		productName: "Product 14",
 		deliverName: "Diliver 4",
@@ -272,9 +299,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.041967244185347, 105.78592145926297
 	},
 	{
+		_uid: "0015",
 		customerName: "Test 15",
 		productName: "Product 15",
 		deliverName: "Diliver 10",
@@ -288,9 +317,11 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
 		// 21.04279425968913, 105.78620058248092
 	},
 	{
+		_uid: "0016",
 		customerName: "Test 16",
 		productName: "Product 16",
 		deliverName: "Diliver 9",
@@ -303,6 +334,79 @@ const ordersData = [
 		},
 		note: "",
 		price: 125000,
+		delivered: false,
+		// 21.04678880733205, 105.79208677054635
+	},
+
+	{
+		_uid: "0017",
+		customerName: "Test 17",
+		productName: "Product 17",
+		deliverName: "Diliver 9",
+		address: "128 Hoàng Quốc Việt, Cổ Nhuế, Cầu Giấy, Hà Nội, Vietnam",
+		coordinates: {
+			latitude: 21.04678880733205,
+			longitude: 105.79208677054635,
+			latitudeDelta: 0.01,
+			longitudeDelta: 0.01,
+		},
+		note: "",
+		price: 125000,
+		delivered: false,
+		// 21.04678880733205, 105.79208677054635
+	},
+
+	{
+		_uid: "0018",
+		customerName: "Test 17",
+		productName: "Product 17",
+		deliverName: "Diliver 2",
+		address: "123 Hoàng Quốc Việt, Cổ Nhuế, Cầu Giấy, Hà Nội, Vietnam",
+		coordinates: {
+			latitude: 21.04678880733205,
+			longitude: 105.79208677054635,
+			latitudeDelta: 0.01,
+			longitudeDelta: 0.01,
+		},
+		note: "",
+		price: 125000,
+		delivered: false,
+		// 21.04678880733205, 105.79208677054635
+	},
+
+	{
+		_uid: "0019",
+		customerName: "Test 18",
+		productName: "Product 18",
+		deliverName: "Diliver 10",
+		address: "124 Hoàng Quốc Việt, Cổ Nhuế, Cầu Giấy, Hà Nội, Vietnam",
+		coordinates: {
+			latitude: 21.04678880833205,
+			longitude: 105.79208677054635,
+			latitudeDelta: 0.01,
+			longitudeDelta: 0.01,
+		},
+		note: "",
+		price: 125000,
+		delivered: false,
+		// 21.04678880733205, 105.79208677054635
+	},
+
+	{
+		_uid: "0020",
+		customerName: "Test 19",
+		productName: "Product 19",
+		deliverName: "Diliver 4",
+		address: "125 Hoàng Quốc Việt, Cổ Nhuế, Cầu Giấy, Hà Nội, Vietnam",
+		coordinates: {
+			latitude: 21.04679880733205,
+			longitude: 105.79208677054635,
+			latitudeDelta: 0.01,
+			longitudeDelta: 0.01,
+		},
+		note: "",
+		price: 125000,
+		delivered: false,
 		// 21.04678880733205, 105.79208677054635
 	},
 ];

@@ -4,6 +4,7 @@ import {
 	View,
 	Image,
 	ImageBackground,
+	SafeAreaView,
 	TouchableOpacity,
 	TextInput,
 	Dimensions,
@@ -38,7 +39,7 @@ function Login(props) {
 	});
 
 	return (
-		<View style={{ flex: 100, backgroundColor: "white" }}>
+		<SafeAreaView style={{ flex: 100, backgroundColor: "white" }}>
 			<View
 				style={{
 					// height: 200,
@@ -260,7 +261,7 @@ function Login(props) {
 					</TouchableOpacity>
 				</View>
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 }
 

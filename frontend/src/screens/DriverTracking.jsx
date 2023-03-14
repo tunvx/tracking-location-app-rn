@@ -5,9 +5,11 @@ import {
 	Text,
 	Image,
 	TouchableOpacity,
+	SafeAreaView,
 	Platform,
 	PermissionsAndroid,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import MapView, {
 	Marker,
 	AnimatedRegion,
@@ -18,40 +20,7 @@ import * as Location from "expo-location";
 import haversine from "haversine";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors, icons } from "../constants";
-
-const styles = StyleSheet.create({
-	container: {
-		...StyleSheet.absoluteFillObject,
-		justifyContent: "flex-end",
-		alignItems: "center",
-	},
-	map: {
-		...StyleSheet.absoluteFillObject,
-	},
-	bubble: {
-		flex: 1,
-		backgroundColor: "rgba(255,255,255,0.7)",
-		paddingHorizontal: 18,
-		paddingVertical: 12,
-		borderRadius: 20,
-	},
-	latlng: {
-		width: 200,
-		alignItems: "stretch",
-	},
-	button: {
-		width: 80,
-		paddingHorizontal: 12,
-		alignItems: "center",
-		marginHorizontal: 10,
-	},
-	buttonContainer: {
-		flexDirection: "row",
-		marginVertical: 20,
-		backgroundColor: "transparent",
-		// backgroundColor: "red",
-	},
-});
+import { DriverToolBar } from "../components";
 
 const LATITUDE_DELTA = 0.009;
 const LONGITUDE_DELTA = 0.009;
@@ -66,7 +35,7 @@ function TrackingRealtime(props) {
 
 	const [followingButton, setFollwingButton] = useState({
 		following: true,
-		name: "gps-not-fixed",
+		name: "gps-fixed",
 	});
 
 	const [prevCoordinate, setPrevCroodinate] = useState({});
@@ -137,21 +106,27 @@ function TrackingRealtime(props) {
 	}, [routeCoordinates, distanceTraveled, prevCoordinate, coordinate]); // ;
 
 	return (
-		<View style={styles.container}>
-			<MapView
-				style={styles.map}
-				showsUserLocation={true}
-				followsUserLocation={followingButton.following}
-				loadingEnabled={true}
-				// region={getMapRegion()}
-			>
+		<SafeAreaView style={{ flex: 100 }}>
+			<View style={styles.container}>
+				<MapView
+					style={styles.map}
+					showsUserLocation={true}
+					followsUserLocation={followingButton.following}
+					loadingEnabled={true}
+					// region={getMapRegion()}
+				>
+					<Polyline
+						coordinates={routeCoordinates}
+						strokeWidth={4}
+						strokeColor={colors.primary}
+					/>
+					<Marker.Animated coordinate={coordinate} />
+				</MapView>
 				<View
 					style={{
-						marginTop: 40,
-						flexDirection: "row",
-						alignItems: "center",
-						justifyContent: "flex-end",
+						marginTop: 6,
 						backgroundColor: "transparent",
+						alignSelf: "flex-end",
 					}}
 				>
 					<TouchableOpacity
@@ -159,49 +134,76 @@ function TrackingRealtime(props) {
 							if (followingButton.following === true) {
 								setFollwingButton({
 									following: false,
-									name: "gps-fixed",
+									name: "gps-not-fixed",
 								});
 							} else {
 								setFollwingButton({
 									following: true,
-									name: "gps-not-fixed",
+									name: "gps-fixed",
 								});
 							}
 						}}
 						style={{
-							width: 50,
-							height: 50,
-							// backgroundColor: "transparent",
-							backgroundColor: "transparent",
+							width: 45,
+							height: 45,
+							backgroundColor: "transparent", // red transparent
 							alignItems: "center",
 							justifyContent: "center",
 							marginRight: 2,
+							marginBottom: 5,
 						}}
 					>
 						<MaterialIcons
 							name={followingButton.name}
-							size={30}
+							size={34}
 							color={colors.primary}
 						/>
 					</TouchableOpacity>
 				</View>
-
-				<Polyline
-					coordinates={routeCoordinates}
-					strokeWidth={4}
-					strokeColor={colors.primary}
-				/>
-				<Marker.Animated coordinate={coordinate} />
-			</MapView>
-			<View style={styles.buttonContainer}>
-				<TouchableOpacity style={[styles.bubble, styles.button]}>
-					<Text style={{ fontSize: 24 }}>
-						{parseFloat(distanceTraveled).toFixed(2)} km
-					</Text>
-				</TouchableOpacity>
+				<View style={styles.buttonContainer}>
+					<TouchableOpacity style={[styles.bubble, styles.button]}>
+						<Text style={{ fontSize: 24 }}>
+							{parseFloat(distanceTraveled).toFixed(2)} km
+						</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
-		</View>
+			<DriverToolBar />
+		</SafeAreaView>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 94,
+		flexDirection: "column",
+		justifyContent: "space-between",
+	},
+	map: {
+		...StyleSheet.absoluteFillObject,
+	},
+	bubble: {
+		flex: 1,
+		backgroundColor: "rgba(255,255,255,0.7)",
+		paddingHorizontal: 18,
+		paddingVertical: 12,
+		borderRadius: 20,
+	},
+	latlng: {
+		width: 200,
+		alignItems: "stretch",
+	},
+	button: {
+		width: 80,
+		paddingHorizontal: 12,
+		alignItems: "center",
+		marginHorizontal: 10,
+	},
+	buttonContainer: {
+		flexDirection: "row",
+		marginVertical: 20,
+		backgroundColor: "transparent",
+	},
+});
 
 export default TrackingRealtime;

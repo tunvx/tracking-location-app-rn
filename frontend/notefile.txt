@@ -21,11 +21,24 @@ QUY TRÌNH NGHIỆP VỤ KINH DOANH CÓ THỂ:
         # Màn hình cho phép nhập các đơn hàng mới, và nhập cả uid cho nó (theo ngày)        => đã xong <<<<<<
 
         # Màn hình về mô phỏng tuyến đường của một anh grap                                 => làm tối giản >>> 
-        
+
+
+    Thứ tự các màn hình:
+
+        Màn hình Welcome
+
+        Màn hình đăng nhập
 
         # Màn hình trang chủ grap - hiển thị ???
+            + Màn hình real-time tracking 
+            + Màn hình import các đơn giao || Màn hình bản đồ các đơn giao || Màn hình chỉnh sửa thông tin chi tiết đơn hàng
             
         # Màn hình trang chủ admin - - hiển thị ???
+
+            + Màn hình mô phỏng tracking || theo buổi
+            + Màn hình 
+
+        # Màn hình user
 
             
 

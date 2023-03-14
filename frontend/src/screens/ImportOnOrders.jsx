@@ -6,6 +6,7 @@ import {
 	Image,
 	SafeAreaView,
 	ScrollView,
+	FlatList,
 	StyleSheet,
 	TouchableOpacity,
 } from "react-native";
@@ -17,6 +18,7 @@ import {
 	Entypo,
 } from "@expo/vector-icons";
 import { colors, mockdata, fontSizes } from "../constants";
+import { DriverToolBar } from "../components";
 
 function ImportOnOrders(props) {
 	// const orders = mockdata.ordersData;
@@ -33,7 +35,12 @@ function ImportOnOrders(props) {
 				<View style={styles.cellInfoStyle}>
 					<Text style={styles.textInfoStyle}>Tất cả các đơn hàng</Text>
 				</View>
-				<DataTable style={{ backgroundColor: colors.textinputBackground }}>
+				<DataTable
+					style={{
+						backgroundColor: colors.textinputBackground,
+						overflow: "scroll",
+					}}
+				>
 					<DataTable.Header>
 						<DataTable.Title>Hình ảnh</DataTable.Title>
 						<DataTable.Title>Tên sản phẩm</DataTable.Title>
@@ -44,9 +51,11 @@ function ImportOnOrders(props) {
 					</DataTable.Header>
 					<ScrollView>
 						{orders.map((order) => (
-							<DataTable.Row>
+							<DataTable.Row key={order._uid}>
 								<DataTable.Cell>
-									<FontAwesome name="product-hunt" size={24} color="black" />
+									<TouchableOpacity>
+										<FontAwesome name="product-hunt" size={24} color="black" />
+									</TouchableOpacity>
 								</DataTable.Cell>
 								<DataTable.Cell>{order.productName}</DataTable.Cell>
 								<DataTable.Cell>{order.address}</DataTable.Cell>
@@ -72,10 +81,23 @@ function ImportOnOrders(props) {
 				</DataTable>
 			</View>
 			<View style={styles.cellTail}>
+				<View
+					style={{
+						...styles.cellInfoStyle,
+						height: 5,
+						backgroundColor: colors.textinputBackground,
+					}}
+				></View>
 				<View style={styles.cellInfoStyle}>
 					<Text style={styles.textInfoStyle}>Các đơn hàng nhập giao</Text>
 				</View>
-				<DataTable style={{ backgroundColor: colors.textinputBackground }}>
+				<DataTable
+					style={{
+						backgroundColor: colors.textinputBackground,
+						alignSelf: "baseline",
+						overflow: "scroll",
+					}}
+				>
 					<DataTable.Header>
 						<DataTable.Title>Hình ảnh</DataTable.Title>
 						<DataTable.Title>Tên sản phẩm</DataTable.Title>
@@ -86,7 +108,7 @@ function ImportOnOrders(props) {
 					</DataTable.Header>
 					<ScrollView>
 						{onOrders.map((order) => (
-							<DataTable.Row>
+							<DataTable.Row key={order._uid}>
 								<DataTable.Cell>
 									<FontAwesome name="product-hunt" size={24} color="black" />
 								</DataTable.Cell>
@@ -109,28 +131,36 @@ function ImportOnOrders(props) {
 					</ScrollView>
 				</DataTable>
 			</View>
+			<DriverToolBar onOrders={onOrders} />
 		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
 	cellHead: {
-		flex: 8,
+		flex: 10,
 		backgroundColor: "rgb(173, 216, 230)",
 		alignItems: "center",
 		justifyContent: "center",
 	},
 
-	textTitleStyle: { fontSize: fontSizes.h1 },
-
-	textInfoStyle: { fontSize: fontSizes.h5, paddingVertical: 5 },
-
 	cellMiddle: {
-		flex: 50,
+		flex: 48,
 		backgroundColor: colors.textinputBackground,
 		flexDirection: "column",
 		alignItems: "center",
 	},
+
+	cellTail: {
+		flex: 36,
+		backgroundColor: colors.textinputBackground,
+		flexDirection: "column",
+		alignItems: "center",
+	},
+
+	textTitleStyle: { fontSize: fontSizes.h1 },
+
+	textInfoStyle: { fontSize: fontSizes.h5, paddingVertical: 5 },
 
 	cellInfoStyle: {
 		backgroundColor: "white",
@@ -143,13 +173,6 @@ const styles = StyleSheet.create({
 	},
 
 	textInfoStyle: { fontSize: fontSizes.h5, paddingVertical: 5 },
-
-	cellTail: {
-		flex: 42,
-		backgroundColor: colors.textinputBackground,
-		flexDirection: "column",
-		alignItems: "center",
-	},
 });
 
 export default ImportOnOrders;
