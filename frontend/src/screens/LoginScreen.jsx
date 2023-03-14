@@ -11,12 +11,14 @@ import {
 	Keyboard,
 	KeyboardAvoidingView,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { colors, images, icons, fontSizes, keys } from "../constants";
 import { isValidateEmail, isValidatePassword } from "../utilies";
 
 function Login(props) {
+	const navigation = useNavigation();
+
 	const [keyboardIsShow, setKeyboardIsShow] = useState(false);
 
 	// states for validating
@@ -130,7 +132,7 @@ function Login(props) {
 								? ""
 								: "Password must be at least 4 characters."
 						);
-						setPassword(password);
+						setPassword(text);
 					}}
 					style={{
 						color: "black",
@@ -140,7 +142,7 @@ function Login(props) {
 					}}
 					placeholder="Enter"
 					placeholderTextColor={colors.placeholderColor}
-					secureTextEntry={true}
+					// secureTextEntry={true}
 				/>
 				<Text
 					style={{
@@ -161,7 +163,11 @@ function Login(props) {
 					}}
 				>
 					<TouchableOpacity
-						onPress={() => alert(`Email = ${email}, Password = ${password}`)}
+						onPress={() => {
+							if (email === "driver01@gmail.com" && password === "1234") {
+								navigation.navigate("ImportOnOrders");
+							}
+						}}
 						style={{
 							backgroundColor: colors.primary,
 							justifyContent: "center",
@@ -185,7 +191,9 @@ function Login(props) {
 						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => alert(`Email = ${email}, Password = ${password}`)}
+						onPress={() => {
+							alert(`Email = ${email}, Password = ${password}`);
+						}}
 						style={{
 							// backgroundColor: "yellow",
 							width: "64%",

@@ -35,6 +35,8 @@ import { DriverToolBar } from "../components";
 function MapOnOrders(props) {
 	const navigation = useNavigation();
 
+	const platform = Platform.OS.toString();
+
 	// Store permissions
 	const [foregroundPermissions, setForegroundPermissions] = useState(null);
 	const [backgroundPermissions, setBackgroundPermissions] = useState(null);
@@ -149,7 +151,7 @@ function MapOnOrders(props) {
 				</MapView>
 				<View
 					style={{
-						marginTop: 6,
+						marginTop: platform === "android" ? 30 : 6,
 						flexDirection: "column",
 						alignItems: "flex-end",
 						justifyContent: "center",
@@ -265,54 +267,56 @@ function MapOnOrders(props) {
 								color={colors.primary}
 							/>
 						</TouchableOpacity>
-						{!orderInHand.delivered && (
-							<TouchableOpacity // Button used to confirm the order has been received
-								onPress={() => {
+
+						<TouchableOpacity // Button used to confirm the order has been received
+							onPress={() => {
+								if (orderInHand.delivered == true) {
+									Alert.alert("Đơn hàng đã được giao thành công");
 									setNote("");
 									setShowInputText(false);
-									Alert.alert(
-										"Xác nhận giao hàng thành công ",
-										"", // <- this part is optional, you can pass an empty string
-										[
-											{
-												text: "OK",
-												onPress: () => {
-													console.log("OK Pressed");
-													setOrdersAreBeingDelivered(
-														(ordersAreBeingDelivered) =>
-															ordersAreBeingDelivered
-																.filter(
-																	(order) => order._uid !== orderInHand._uid
-																)
-																.concat([
-																	{
-																		...orderInHand,
-																		delivered: true,
-																		receivingTime: "8h 37' sáng",
-																	},
-																])
-													);
-												},
+									return;
+								}
+								setNote("");
+								setShowInputText(false);
+								Alert.alert(
+									"Xác nhận giao hàng thành công ",
+									"", // <- this part is optional, you can pass an empty string
+									[
+										{
+											text: "OK",
+											onPress: () => {
+												console.log("OK Pressed");
+												setOrdersAreBeingDelivered((ordersAreBeingDelivered) =>
+													ordersAreBeingDelivered
+														.filter((order) => order._uid !== orderInHand._uid)
+														.concat([
+															{
+																...orderInHand,
+																delivered: true,
+																receivingTime: "8h 37' sáng",
+															},
+														])
+												);
 											},
-										],
-										{ cancelable: false }
-									);
-								}}
-								style={{
-									backgroundColor: "transparent",
-									width: 32,
-									height: 32,
-									margin: 2,
-									marginLeft: 10,
-								}}
-							>
-								<MaterialCommunityIcons
-									name="truck-delivery"
-									size={36}
-									color={colors.primary}
-								/>
-							</TouchableOpacity>
-						)}
+										},
+									],
+									{ cancelable: false }
+								);
+							}}
+							style={{
+								backgroundColor: "transparent",
+								width: 32,
+								height: 32,
+								margin: 2,
+								marginLeft: 10,
+							}}
+						>
+							<MaterialCommunityIcons
+								name="truck-delivery"
+								size={36}
+								color={colors.primary}
+							/>
+						</TouchableOpacity>
 					</View>
 				)}
 			</View>

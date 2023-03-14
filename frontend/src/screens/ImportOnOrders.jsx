@@ -62,7 +62,10 @@ function ImportOnOrders(props) {
 								<DataTable.Cell style={{ justifyContent: "center" }}>
 									<TouchableOpacity
 										onPress={() => {
+											// list below
 											setOnOrders(onOrders.concat([order]));
+
+											// list above
 											setOrders((orders) =>
 												orders.filter((element) => element !== order)
 											);
@@ -117,7 +120,10 @@ function ImportOnOrders(props) {
 								<DataTable.Cell style={{ justifyContent: "center" }}>
 									<TouchableOpacity
 										onPress={() => {
+											// list above
 											setOrders(orders.concat([order]));
+
+											// list below
 											setOnOrders((onOrders) =>
 												onOrders.filter((element) => element !== order)
 											);

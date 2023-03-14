@@ -3,15 +3,17 @@ import { Text } from "react-native";
 import { Touchable, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../constants";
+import { useNavigation } from "@react-navigation/native";
 
 function UIButton(props) {
-	const { onPress, title, isSelected } = props;
+	const { onPress, title, isSelected, textColor } = props;
 	return (
 		<TouchableOpacity
 			onPress={onPress}
 			style={{
 				height: 45,
-				borderColor: "white",
+				borderColor:
+					isSelected == true ? colors.primary : colors.placeholderColor,
 				borderWidth: 1,
 				borderRadius: 5,
 				marginHorizontal: 18,
@@ -33,7 +35,15 @@ function UIButton(props) {
 					}}
 				/>
 			)}
-			<Text style={{ color: isSelected == true ? colors.primary : "white" }}>
+			<Text
+				style={{
+					color:
+						textColor || isSelected == true
+							? colors.primary
+							: colors.placeholderColor,
+					fontWeight: "700",
+				}}
+			>
 				{title}
 			</Text>
 		</TouchableOpacity>

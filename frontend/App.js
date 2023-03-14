@@ -20,7 +20,7 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator
-				initialRouteName="ImportOnOrders"
+				initialRouteName="Welcome"
 				screenOptions={{
 					headerShown: false,
 				}}

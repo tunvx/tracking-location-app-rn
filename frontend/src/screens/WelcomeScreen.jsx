@@ -7,16 +7,22 @@ import {
 	ImageBackground,
 	TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Icon } from "react-native-vector-icons/FontAwesome";
 
 import { colors, icons, fontSizes, images, keys } from "../constants";
 import { UIButton } from "../components";
 
 function Welcome(props) {
+	const navigation = useNavigation();
+
+	const [backgroundLoginButton, setBackgroundLoginButton] =
+		useState("transparent");
+
 	const [accountTypes, setAccountTypes] = useState([
 		{
 			name: "Người dùng",
-			isSelected: true,
+			isSelected: false,
 		},
 		{
 			name: "Lái xe công nghệ",
@@ -24,11 +30,10 @@ function Welcome(props) {
 		},
 		{
 			name: "Người quản lý",
+			isSelected: false,
 		},
 	]);
 
-	// return <View style={{ flex: 100, backgroundColor: "red" }}>
-	// </View>;
 	return (
 		<View style={{ flex: 100 }}>
 			<ImageBackground
@@ -60,8 +65,8 @@ function Welcome(props) {
 								marginEnd: 5,
 							}}
 						/>
-						<Text style={{ color: "white", fontSize: fontSizes.h5 }}>
-							YOURCOMPANY.CO
+						<Text style={{ color: colors.primary, fontSize: fontSizes.h5 }}>
+							Nâng cao chất lượng phục vụ
 						</Text>
 						<View style={{ flex: 1 }} />
 						{/* <Icon
@@ -83,29 +88,29 @@ function Welcome(props) {
 					<Text
 						style={{
 							marginBottom: 10,
-							color: "white",
+							color: colors.primary,
 							fontSize: fontSizes.h5,
 						}}
 					>
-						Welcome to
+						Chào mừng bạn đến với
 					</Text>
 					<Text
 						style={{
 							marginBottom: 10,
-							color: "white",
-							fontWeight: "bold",
+							color: colors.primary,
+							fontWeight: "500",
 							fontSize: fontSizes.h5,
 						}}
 					>
-						YOURCOMPANY.CO !
+						Ứng dụng hỗ trợ giao hàng
 					</Text>
 					<Text
 						style={{
-							color: "white",
+							color: colors.primary,
 							fontSize: fontSizes.h5,
 						}}
 					>
-						Please select your account type
+						Vui lòng chọn loại tài khoản của bạn
 					</Text>
 				</View>
 				<View
@@ -116,6 +121,7 @@ function Welcome(props) {
 				>
 					{accountTypes.map((accountType) => (
 						<UIButton
+							key={accountType.name}
 							onPress={() => {
 								let newAccountTypes = accountTypes.map((eachAccountType) => {
 									return {
@@ -138,10 +144,35 @@ function Welcome(props) {
 						// backgroundColor: "green",
 					}}
 				>
-					<UIButton title={"Login"}></UIButton>
+					<TouchableOpacity
+						onPress={() => {
+							setBackgroundLoginButton("white");
+							navigation.navigate("Login");
+						}}
+						style={{
+							height: 45,
+							borderColor: colors.primary,
+							borderWidth: 1,
+							borderRadius: 5,
+							marginHorizontal: 18,
+							marginVertical: 10,
+							justifyContent: "center",
+							alignItems: "center",
+							backgroundColor: backgroundLoginButton,
+						}}
+					>
+						<Text
+							style={{
+								color: colors.primary,
+								fontWeight: "700",
+							}}
+						>
+							Login
+						</Text>
+					</TouchableOpacity>
 					<Text
 						style={{
-							color: "white",
+							color: colors.placeholderColor,
 							fontSize: fontSizes.h5,
 							alignSelf: "center",
 						}}
@@ -151,7 +182,6 @@ function Welcome(props) {
 					<TouchableOpacity
 						onPress={() => {}}
 						style={{
-							// backgroundColor: "red",
 							padding: 8,
 							marginHorizontal: 90,
 						}}
