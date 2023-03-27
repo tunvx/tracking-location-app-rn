@@ -11,32 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateOrderDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const utils_1 = require("../../utils");
 class UpdateOrderDto {
 }
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        required: true,
-    }),
-    __metadata("design:type", String)
-], UpdateOrderDto.prototype, "customer", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        required: true,
-    }),
-    __metadata("design:type", String)
-], UpdateOrderDto.prototype, "address", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        required: true,
-    }),
-    __metadata("design:type", Object)
-], UpdateOrderDto.prototype, "receivingCoords", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        required: true,
-    }),
-    __metadata("design:type", Number)
-], UpdateOrderDto.prototype, "price", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         required: false,
@@ -47,6 +24,19 @@ __decorate([
     (0, swagger_1.ApiProperty)({
         required: false,
     }),
+    __metadata("design:type", String)
+], UpdateOrderDto.prototype, "predictTime", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        required: false,
+    }),
+    __metadata("design:type", String)
+], UpdateOrderDto.prototype, "deliverId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        required: true,
+        default: false,
+    }),
     __metadata("design:type", Boolean)
 ], UpdateOrderDto.prototype, "delivered", void 0);
 __decorate([
@@ -54,18 +44,12 @@ __decorate([
         required: false,
     }),
     __metadata("design:type", String)
-], UpdateOrderDto.prototype, "deliver", void 0);
+], UpdateOrderDto.prototype, "deliveryTime", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         required: false,
     }),
-    __metadata("design:type", String)
-], UpdateOrderDto.prototype, "deliveringTime", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        required: false,
-    }),
-    __metadata("design:type", Object)
-], UpdateOrderDto.prototype, "deliveringCoords", void 0);
+    __metadata("design:type", utils_1.Coords)
+], UpdateOrderDto.prototype, "deliveryCoordinates", void 0);
 exports.UpdateOrderDto = UpdateOrderDto;
 //# sourceMappingURL=update-order.dto.js.map

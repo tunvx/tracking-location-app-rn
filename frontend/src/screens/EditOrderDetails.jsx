@@ -17,191 +17,233 @@ import { DriverToolBar } from "../components";
 function EditOrderDetails(props) {
 	// const order = mockdata.onOrdersData[0];
 	// const order = props.route.params.order;
-
+	// const order_id = props.route.params.order_id;
 	const [order, setOrder] = useState(props.route.params.order);
+	const [customer, setCustomer] = useState(null);
+	const [deliver, setDeliver] = useState();
 
 	useEffect(() => {
-		console.log(">>>starting order>>>>");
-		console.log(props);
+		console.log(">>>> Route >>>>");
 		console.log(order);
+		console.log(order.customerId);
+		console.log(order.deliverId);
+		fetch(`http://192.168.0.187:3000/users/u/${order.customerId}`, {
+			method: "GET",
+		})
+			.then((response) => response.json())
+			.then((response) => {
+				console.log("day roi ne");
+				console.log(response);
+				setCustomer(response);
+			});
+		console.log(customer);
 	}, []);
 
 	return (
-		<SafeAreaView style={{ backgroundColor: "white", flex: 100 }}>
-			<View style={styles.cellHead}>
-				<Text style={styles.textTitleStyle}>Thông tin đơn giao</Text>
-			</View>
-			<View style={styles.cellMiddle}>
-				<View style={styles.cellMiddleChild}>
+		customer != undefined && (
+			<SafeAreaView style={{ backgroundColor: "white", flex: 100 }}>
+				<View style={styles.cellHead}>
+					<Text style={styles.textTitleStyle}>Thông tin đơn giao</Text>
+				</View>
+				<View style={styles.cellMiddle}>
+					{/* <View style={styles.cellMiddleChild}>
 					<Text style={styles.textMiddleStyle}>Mã đơn hàng:</Text>
 					<TextInput
-						defaultValue={order._uid.toString() || ""}
+						defaultValue={order._id.toString() || ""}
 						style={styles.textInputMiddleStyle}
 						placeholder="Nhập ..."
 					></TextInput>
 					<TouchableOpacity>
 						<Entypo name="pencil" size={22} color="black" />
 					</TouchableOpacity>
-				</View>
-				<View style={styles.cellMiddleChild}>
-					<Text style={styles.textMiddleStyle}>Tên loại hàng: </Text>
-					<TextInput
-						defaultValue={order.productName.toString()}
-						style={styles.textInputMiddleStyle}
-						placeholder="Nhập ..."
-					></TextInput>
-					<TouchableOpacity>
-						<Entypo name="pencil" size={22} color="black" />
-					</TouchableOpacity>
-				</View>
-				<View style={styles.cellMiddleChild}>
-					<Text style={styles.textMiddleStyle}>Người nhận: </Text>
-					<TextInput
-						defaultValue={order.customerName}
-						style={styles.textInputMiddleStyle}
-						placeholder="Nhập ..."
-					></TextInput>
-					<TouchableOpacity>
-						<Entypo name="pencil" size={22} color="black" />
-					</TouchableOpacity>
-				</View>
-				<View style={styles.cellMiddleChild}>
-					<Text style={styles.textMiddleStyle}>Địa chỉ giao:</Text>
-					<TextInput
-						defaultValue={order.address.toString()}
-						style={styles.textInputMiddleStyle}
-						placeholder="Nhập ..."
-					></TextInput>
-					<TouchableOpacity>
-						<Entypo name="pencil" size={22} color="black" />
-					</TouchableOpacity>
-				</View>
+				</View> */}
+					<View style={styles.cellMiddleChild}>
+						<Text style={styles.textMiddleStyle}>Tên hàng: </Text>
+						<TextInput
+							value={order.productName.toString()}
+							style={styles.textInputMiddleStyle}
+							placeholder="Nhập ..."
+						></TextInput>
+						<TouchableOpacity>
+							<Entypo name="pencil" size={22} color="black" />
+						</TouchableOpacity>
+					</View>
+					<View style={styles.cellMiddleChild}>
+						<Text style={styles.textMiddleStyle}>Người nhận: </Text>
+						<TextInput
+							value={customer.name}
+							style={styles.textInputMiddleStyle}
+							placeholder="Nhập ..."
+						></TextInput>
+						<TouchableOpacity>
+							<Entypo name="pencil" size={22} color="black" />
+						</TouchableOpacity>
+					</View>
+					<View style={styles.cellMiddleChild}>
+						<Text style={styles.textMiddleStyle}>Địa chỉ giao:</Text>
+						<TextInput
+							value={order.address.toString()}
+							style={styles.textInputMiddleStyle}
+							placeholder="Nhập ..."
+						></TextInput>
+						<TouchableOpacity>
+							<Entypo name="pencil" size={22} color="black" />
+						</TouchableOpacity>
+					</View>
 
-				<View style={styles.cellMiddleChild}>
-					<Text style={styles.textMiddleStyle}>Người giao:</Text>
-					<TextInput
-						defaultValue={order.deliverName.toString()}
-						style={styles.textInputMiddleStyle}
-						placeholder="Nhập ..."
-					></TextInput>
-					<TouchableOpacity>
-						<Entypo name="pencil" size={22} color="black" />
-					</TouchableOpacity>
-				</View>
-				<View style={styles.cellMiddleChild}>
-					<Text style={styles.textMiddleStyle}>Chú thích:</Text>
-					<TextInput
-						defaultValue={order.note.toString()}
-						style={styles.textInputMiddleStyle}
-						placeholder="Nhập ..."
-					></TextInput>
-					<TouchableOpacity>
-						<Entypo name="pencil" size={22} color="black" />
-					</TouchableOpacity>
-				</View>
-				<View style={styles.cellMiddleChild}>
-					<Text style={styles.textMiddleStyle}>Chú thích:</Text>
-					<TextInput
-						defaultValue={order.note.toString()}
-						style={styles.textInputMiddleStyle}
-						placeholder="Nhập ..."
-					></TextInput>
-					<TouchableOpacity>
-						<Entypo name="pencil" size={22} color="black" />
-					</TouchableOpacity>
-				</View>
-				<View style={styles.cellMiddleChild}>
-					<Text style={styles.textMiddleStyle}>Chú thích:</Text>
-					<TextInput
-						defaultValue={order.note.toString()}
-						style={styles.textInputMiddleStyle}
-						placeholder="Nhập ..."
-					></TextInput>
-					<TouchableOpacity>
-						<Entypo name="pencil" size={22} color="black" />
-					</TouchableOpacity>
-				</View>
+					{/* <View style={styles.cellMiddleChild}>
+						<Text style={styles.textMiddleStyle}>Người giao:</Text>
+						<TextInput
+							defaultValue={order.deliverName.toString()}
+							style={styles.textInputMiddleStyle}
+							placeholder="Nhập ..."
+						></TextInput>
+						<TouchableOpacity>
+							<Entypo name="pencil" size={22} color="black" />
+						</TouchableOpacity>
+					</View> */}
+					<View style={styles.cellMiddleChild}>
+						<Text style={styles.textMiddleStyle}>Giá sản phẩm:</Text>
+						<TextInput
+							value={order.price.toLocaleString("vi", {
+								style: "currency",
+								currency: "VND",
+							})}
+							style={styles.textInputMiddleStyle}
+							placeholder="Nhập ..."
+						></TextInput>
+						<TouchableOpacity>
+							<Entypo name="pencil" size={22} color="black" />
+						</TouchableOpacity>
+					</View>
+					<View style={styles.cellMiddleChild}>
+						<Text style={styles.textMiddleStyle}>Dự đoán thời gian:</Text>
+						<TextInput
+							defaultValue={"Chưa xác định"}
+							style={styles.textInputMiddleStyle}
+							placeholder="Nhập ..."
+							onChangeText={(text) => {
+								order.predictTime = text;
+								console.log(order.predictTime);
+							}}
+						></TextInput>
+						<TouchableOpacity>
+							<Entypo name="pencil" size={22} color="black" />
+						</TouchableOpacity>
+					</View>
+					<View style={styles.cellMiddleChild}>
+						<Text style={styles.textMiddleStyle}>Chú thích:</Text>
+						<TextInput
+							defaultValue={order.note.toString()}
+							style={styles.textInputMiddleStyle}
+							placeholder="Nhập ..."
+							onChangeText={(text) => {
+								order.note = text;
+								console.log(order.note);
+							}}
+						></TextInput>
+						<TouchableOpacity>
+							<Entypo name="pencil" size={22} color="black" />
+						</TouchableOpacity>
+					</View>
 
-				<View
-					style={{
-						...styles.cellMiddleChild,
-						backgroundColor: colors.textinputBackground,
-					}}
-				>
-					<View style={{ width: "65%" }}></View>
-					<TouchableOpacity
-						onPress={() => {
-							console.log(order);
+					<View
+						style={{
+							...styles.cellMiddleChild,
+							backgroundColor: colors.textinputBackground,
 						}}
 					>
-						<FontAwesome name="save" size={32} color="black" />
-					</TouchableOpacity>
+						<View style={{ width: "65%" }}></View>
+						<TouchableOpacity
+							onPress={() => {
+								console.log(order._id);
+								fetch(`http://192.168.0.187:3000/orders/update/${order._id}`, {
+									method: "PATCH",
+									headers: { "Content-Type": "application/json" },
+									body: JSON.stringify({
+										note: order.note,
+										predictTime: order.predictTime,
+									}),
+								}).then((response) => {
+									if (response.ok) {
+										response.json().then((data) => {
+											console.log("Return response::");
+											console.log(data);
+										});
+									}
+								});
+							}}
+						>
+							<FontAwesome name="save" size={32} color="black" />
+						</TouchableOpacity>
+					</View>
 				</View>
-			</View>
-			<View
-				style={{ height: 6, width: "100%", backgroundColor: "white" }}
-			></View>
-			<View
-				style={{
-					height: 7,
-					width: "100%",
-					backgroundColor: colors.textinputBackground,
-				}}
-			></View>
-			<View style={styles.cellTail}>
+				<View
+					style={{ height: 6, width: "100%", backgroundColor: "white" }}
+				></View>
 				<View
 					style={{
-						height: 25,
+						height: 7,
 						width: "100%",
-						//backgroundColor: "red",
-						justifyContent: "center",
-						alignItems: "center",
-						paddingTop: 2,
+						backgroundColor: colors.textinputBackground,
 					}}
-				>
-					<Text style={{ fontSize: 14 }}>Thông tin trạng thái giao hàng</Text>
-				</View>
-				<ScrollView style={{ width: "95%" }}>
-					<View style={styles.cellTailChild}>
-						<Text style={styles.textTailStyle}>Giá sản phẩm</Text>
-						<Text style={styles.textTailStyle}>
-							{"Thành tiền: " +
-								order.price.toLocaleString("vi", {
+				></View>
+				<View style={styles.cellTail}>
+					<View
+						style={{
+							height: 25,
+							width: "100%",
+							//backgroundColor: "red",
+							justifyContent: "center",
+							alignItems: "center",
+							paddingTop: 2,
+						}}
+					>
+						<Text style={{ fontSize: 14 }}>Thông tin trạng thái giao hàng</Text>
+					</View>
+					<ScrollView style={{ width: "95%" }}>
+						<View style={styles.cellTailChild}>
+							<Text style={styles.textTailStyle}>Thành tiền</Text>
+							<Text style={styles.textTailStyle}>
+								{(order.price + 15000).toLocaleString("vi", {
 									style: "currency",
 									currency: "VND",
 								})}
-						</Text>
-					</View>
-					<View style={styles.cellTailChild}>
-						<Text style={styles.textTailStyle}>Trạng thái giao hàng</Text>
-						<Text style={styles.textTailStyle}>
-							{order.delivered === true ? "Giao thành công" : "Đang giao hàng"}
-						</Text>
-					</View>
-					{order.delivered === true && (
-						<View style={styles.cellTailChild}>
-							<Text style={styles.textTailStyle}>Thời điểm giao</Text>
-							<Text style={styles.textTailStyle}>
-								{order.receivingTime.toString()}
 							</Text>
 						</View>
-					)}
-					{order.delivered === true && (
 						<View style={styles.cellTailChild}>
-							<Text style={styles.textTailStyle}>Thông tin vị trí giao</Text>
+							<Text style={styles.textTailStyle}>Trạng thái giao hàng</Text>
 							<Text style={styles.textTailStyle}>
-								Số 117, ngõ 133, Xuân Thủy
+								{order.delivered === true
+									? "Giao thành công"
+									: "Đang giao hàng"}
 							</Text>
 						</View>
-					)}
-					<View style={styles.cellTailChild}>
-						<Text style={styles.textTailStyle}>Đánh giá từ khách hàng</Text>
-						<Text style={styles.textTailStyle}>Không nhận được đánh giá</Text>
-					</View>
-				</ScrollView>
-			</View>
-			<DriverToolBar />
-		</SafeAreaView>
+						{order.delivered === true && (
+							<View style={styles.cellTailChild}>
+								<Text style={styles.textTailStyle}>Thời điểm giao</Text>
+								<Text style={styles.textTailStyle}>
+									{order.receivingTime.toString()}
+								</Text>
+							</View>
+						)}
+						{order.delivered === true && (
+							<View style={styles.cellTailChild}>
+								<Text style={styles.textTailStyle}>Thông tin vị trí giao</Text>
+								<Text style={styles.textTailStyle}>
+									Số 117, ngõ 133, Xuân Thủy
+								</Text>
+							</View>
+						)}
+						<View style={styles.cellTailChild}>
+							<Text style={styles.textTailStyle}>Đánh giá từ khách hàng</Text>
+							<Text style={styles.textTailStyle}>Không nhận được đánh giá</Text>
+						</View>
+					</ScrollView>
+				</View>
+				<DriverToolBar />
+			</SafeAreaView>
+		)
 	);
 }
 

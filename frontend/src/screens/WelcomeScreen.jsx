@@ -98,8 +98,8 @@ function Welcome(props) {
 						style={{
 							marginBottom: 10,
 							color: colors.primary,
-							fontWeight: "500",
-							fontSize: fontSizes.h5,
+							fontWeight: "700",
+							fontSize: fontSizes.h4,
 						}}
 					>
 						Ứng dụng hỗ trợ giao hàng

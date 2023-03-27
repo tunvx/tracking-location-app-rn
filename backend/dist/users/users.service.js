@@ -42,7 +42,7 @@ let UsersService = class UsersService {
     }
     async findByObjID(id) {
         try {
-            const user = await this.userModel.findOne({ _id: id }).lean().exec();
+            const user = await this.userModel.findOne({ _id: id }).lean();
             return user;
         }
         catch (err) {
@@ -72,6 +72,16 @@ let UsersService = class UsersService {
         catch (err) {
             throw new common_1.HttpException('Something went wrong', err);
         }
+    }
+    async addRouter(userId, routerId) {
+        const user = await this.userModel.findById(userId);
+        if (!user) {
+            console.log('User not found');
+            return;
+        }
+        await user.routers.push(routerId);
+        await user.save();
+        return user;
     }
 };
 UsersService = __decorate([

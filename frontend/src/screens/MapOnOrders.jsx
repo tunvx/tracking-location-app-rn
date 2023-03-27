@@ -69,6 +69,10 @@ function MapOnOrders(props) {
 	useEffect(() => {
 		// setOrdersAreBeingDelivered(mockdata.onOrdersData);
 		// console.log(props.route.params);
+		let o = ordersAreBeingDelivered[0];
+		console.log(o);
+		console.log("asdjfhkasjdhfkja");
+		console.log(Location.geocodeAsync(o.address));
 	}, []);
 
 	{
@@ -125,12 +129,13 @@ function MapOnOrders(props) {
 								setShowInputText(true);
 								setNote(order.note);
 							}}
-							key={order._uid}
-							coordinate={order.coordinates}
+							key={order._id}
+							coordinate={order.coords}
 							title={
-								order.note === ""
-									? "Chú thích riêng..., " + order.address
-									: order.note + ", " + order.address
+								// order.note === ""
+								// 	? "Chú thích riêng..., " + order.address
+								// 	: order.note + ", " + order.address
+								order.note + ", " + order.productName
 							}
 						>
 							{order.delivered === true ? (
@@ -228,7 +233,7 @@ function MapOnOrders(props) {
 							onPress={() => {
 								setOrdersAreBeingDelivered((ordersAreBeingDelivered) =>
 									ordersAreBeingDelivered
-										.filter((order) => order._uid !== orderInHand._uid)
+										.filter((order) => order._id !== orderInHand._id)
 										.concat([{ ...orderInHand, note: note }])
 								);
 								// console.log(note);
@@ -288,7 +293,7 @@ function MapOnOrders(props) {
 												console.log("OK Pressed");
 												setOrdersAreBeingDelivered((ordersAreBeingDelivered) =>
 													ordersAreBeingDelivered
-														.filter((order) => order._uid !== orderInHand._uid)
+														.filter((order) => order._id !== orderInHand._id)
 														.concat([
 															{
 																...orderInHand,

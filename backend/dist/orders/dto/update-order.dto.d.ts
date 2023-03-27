@@ -1,11 +1,9 @@
+import { Coords } from 'src/utils';
 export declare class UpdateOrderDto {
-    customer: string;
-    address: string;
-    receivingCoords: {};
-    price: number;
-    note?: string;
-    delivered?: boolean;
-    deliver?: string;
-    deliveringTime?: string;
-    deliveringCoords?: {};
+    note: string;
+    predictTime: string;
+    deliverId: string;
+    delivered: boolean;
+    deliveryTime: string;
+    deliveryCoordinates: Coords;
 }

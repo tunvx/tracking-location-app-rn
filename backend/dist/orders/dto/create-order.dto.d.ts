@@ -1,12 +1,14 @@
 import { Coords } from 'src/utils';
 export declare class CreateOrderDto {
-    customer: string;
+    customerId: string;
+    productName: string;
     address: string;
     coords: Coords;
     price: number;
-    note?: string;
-    delivered?: boolean;
-    deliver?: string;
-    deliveringTime?: string;
-    deliveringCoords?: Coords;
+    note: string;
+    predictTime: string;
+    deliverId: string;
+    delivered: boolean;
+    deliveryTime: string;
+    deliveryCoordinates: Coords;
 }

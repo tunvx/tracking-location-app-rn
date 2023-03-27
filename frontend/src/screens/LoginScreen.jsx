@@ -10,7 +10,9 @@ import {
 	Dimensions,
 	Keyboard,
 	KeyboardAvoidingView,
+	Alert,
 } from "react-native";
+import jwt_decode from "jwt-decode";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { colors, images, icons, fontSizes, keys } from "../constants";
@@ -104,6 +106,7 @@ function Login(props) {
 						padding: 5,
 						borderBottomWidth: 1,
 					}}
+					defaultValue={"driverxx@gmail.com"}
 					placeholder="example@gmail.com"
 					placeholderTextColor={colors.placeholderColor}
 				/>
@@ -140,6 +143,7 @@ function Login(props) {
 						padding: 5,
 						borderBottomWidth: 1,
 					}}
+					defaultValue={"1234"}
 					placeholder="Enter"
 					placeholderTextColor={colors.placeholderColor}
 					// secureTextEntry={true}
@@ -164,9 +168,28 @@ function Login(props) {
 				>
 					<TouchableOpacity
 						onPress={() => {
-							if (email === "driver01@gmail.com" && password === "1234") {
-								navigation.navigate("ImportOnOrders");
-							}
+							// if (email === "driverxx@gmail.com" && password === "1234") {
+							// 	navigation.navigate("ImportOnOrders");
+							// }
+							fetch("http://192.168.0.187:3000/login", {
+								method: "POST",
+								headers: { "Content-Type": "application/json" },
+								body: JSON.stringify({
+									email: email,
+									password: password,
+								}),
+							}).then((response) => {
+								if (response.ok) {
+									response.json().then((data) => {
+										console.log("Return response::");
+										console.log(data);
+										console.log(jwt_decode(data.accessToken));
+									});
+									// navigation.navigate("ImportOnOrders", );
+								} else {
+									Alert.alert("Thông tin tài khoản không tồn tại");
+								}
+							});
 						}}
 						style={{
 							backgroundColor: colors.primary,

@@ -83,16 +83,22 @@ function TrackingRealtime(props) {
 			// console.log(backgroundStatus.status);
 
 			let position = await Location.getCurrentPositionAsync();
+			let coordss = await Location.geocodeAsync(
+				"136 Đ. Xuân Thủy, Dịch Vọng Hậu, Cầu Giấy, Hà Nội, Vietnam"
+			);
+			// 21.030410221614545, 105.7826646342802
+			// 21.0288247, 105.7817389
 			console.log("===================== start ========================");
-			console.log(routeCoordinates.length);
-			console.log(followingButton);
-			console.log(position);
+			console.log(coordss);
+			// console.log(routeCoordinates.length);
+			// console.log(followingButton);
+			// console.log(position);
 			const { latitude, longitude } = position.coords;
 			const newCoords = { latitude, longitude };
 
 			// Calculate distance between new and old coordinates - unit: km
 			let distanceCalculate = calcDistance(newCoords);
-			console.log(distanceCalculate);
+			// console.log(distanceCalculate);
 			if (distanceCalculate === 0 || distanceCalculate >= MIN_DISTANCE) {
 				// After calculating distance, current coordinate has no value, it's
 				// set all values

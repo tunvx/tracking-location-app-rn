@@ -25,6 +25,7 @@ export class RoutersService {
     }
     const router = await new this.routerModel(createRouterDto);
     await router.save();
+    await this.usersService.addRouter(createRouterDto.deliver, router._id);
     return router;
   }
 

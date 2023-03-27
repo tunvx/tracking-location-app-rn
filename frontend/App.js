@@ -17,9 +17,22 @@ import {
 const RootStack = createNativeStackNavigator();
 
 export default function App() {
+	// useEffect(() => {
+	// 	let posotionInterval = setInterval(async () => {
+	// 		console.log("Entering");
+	// 	}, 1000);
+	// 	return () => clearInterval(posotionInterval);
+	// });
+
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator
+				screenListeners={{
+					focus: (e) => {
+						// code you wanna execute goes here
+						console.log("Focus has changed");
+					},
+				}}
 				initialRouteName="Welcome"
 				screenOptions={{
 					headerShown: false,

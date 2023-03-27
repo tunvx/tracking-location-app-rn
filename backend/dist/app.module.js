@@ -16,6 +16,7 @@ const schedule_1 = require("@nestjs/schedule");
 const users_module_1 = require("./users/users.module");
 const authentication_1 = require("./authentication");
 const router_module_1 = require("./routers/router.module");
+const order_module_1 = require("./orders/order.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -29,6 +30,7 @@ AppModule = __decorate([
             authentication_1.AuthModule,
             users_module_1.UsersModule,
             router_module_1.RoutersModule,
+            order_module_1.OrdersModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, config_1.ConfigService],

@@ -18,7 +18,7 @@ let Order = class Order {
 };
 __decorate([
     (0, class_transformer_1.Transform)(({ value }) => value.toString()),
-    __metadata("design:type", Object)
+    __metadata("design:type", String)
 ], Order.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
@@ -27,7 +27,13 @@ __decorate([
         required: true,
     }),
     __metadata("design:type", String)
-], Order.prototype, "customer", void 0);
+], Order.prototype, "customerId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true,
+    }),
+    __metadata("design:type", String)
+], Order.prototype, "productName", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         required: true,
@@ -48,12 +54,43 @@ __decorate([
 ], Order.prototype, "price", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        type: mongoose_2.default.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
+        required: false,
     }),
     __metadata("design:type", String)
-], Order.prototype, "deliver", void 0);
+], Order.prototype, "note", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: false,
+    }),
+    __metadata("design:type", String)
+], Order.prototype, "predictTime", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: mongoose_2.default.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false,
+    }),
+    __metadata("design:type", String)
+], Order.prototype, "deliverId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true,
+        default: false,
+    }),
+    __metadata("design:type", Boolean)
+], Order.prototype, "delivered", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: false,
+    }),
+    __metadata("design:type", String)
+], Order.prototype, "deliveryTime", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: false,
+    }),
+    __metadata("design:type", utils_1.Coords)
+], Order.prototype, "deliveryCoordinates", void 0);
 Order = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Order);

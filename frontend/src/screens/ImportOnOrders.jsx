@@ -26,6 +26,22 @@ function ImportOnOrders(props) {
 	const [orders, setOrders] = useState(mockdata.ordersData);
 	const [onOrders, setOnOrders] = useState([]);
 
+	useEffect(() => {
+		fetch("http://192.168.0.187:3000/orders/all", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((response) => response.json())
+			.then((response) => {
+				console.log("Fetching orders");
+				console.log(response);
+				setOrders(response);
+			});
+	}, []);
+
 	return (
 		<SafeAreaView style={{ backgroundColor: "white", flex: 100 }}>
 			<View style={styles.cellHead}>
@@ -51,7 +67,7 @@ function ImportOnOrders(props) {
 					</DataTable.Header>
 					<ScrollView>
 						{orders.map((order) => (
-							<DataTable.Row key={order._uid}>
+							<DataTable.Row key={order._id}>
 								<DataTable.Cell>
 									<TouchableOpacity>
 										<FontAwesome name="product-hunt" size={24} color="black" />
@@ -111,7 +127,7 @@ function ImportOnOrders(props) {
 					</DataTable.Header>
 					<ScrollView>
 						{onOrders.map((order) => (
-							<DataTable.Row key={order._uid}>
+							<DataTable.Row key={order._id}>
 								<DataTable.Cell>
 									<FontAwesome name="product-hunt" size={24} color="black" />
 								</DataTable.Cell>

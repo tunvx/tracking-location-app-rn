@@ -16,7 +16,7 @@ const class_validator_1 = require("class-validator");
 class AuthUserDto {
 }
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: true, default: 'driverxx@gmail.com' }),
+    (0, swagger_1.ApiProperty)({ required: true, default: 'customerxx@gmail.com' }),
     (0, mongoose_1.Prop)({ required: true }),
     (0, class_validator_1.IsEmail)(),
     (0, class_validator_1.IsNotEmpty)(),

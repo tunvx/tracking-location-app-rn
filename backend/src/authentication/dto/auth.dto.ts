@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class AuthUserDto {
-  @ApiProperty({ required: true, default: 'driverxx@gmail.com' })
+  @ApiProperty({ required: true, default: 'customerxx@gmail.com' })
   @Prop({ required: true })
   @IsEmail()
   @IsNotEmpty()
@@ -15,4 +15,7 @@ export class AuthUserDto {
   @IsString()
   @MinLength(4)
   password: string;
+
+  // @ApiProperty({ required: false })
+  // name: string;
 }

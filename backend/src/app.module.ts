@@ -7,6 +7,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './authentication';
 import { RoutersModule } from './routers/router.module';
+import { OrdersModule } from './orders/order.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,6 +18,7 @@ import { RoutersModule } from './routers/router.module';
     AuthModule,
     UsersModule,
     RoutersModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],

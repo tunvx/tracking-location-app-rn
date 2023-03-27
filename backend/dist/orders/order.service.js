@@ -16,27 +16,35 @@ exports.OrdersService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
-const users_1 = require("../users");
 const schema_1 = require("./schema");
 let OrdersService = class OrdersService {
-    constructor(orderModel, userService) {
+    constructor(orderModel) {
         this.orderModel = orderModel;
-        this.userService = userService;
     }
-    async create(createOrderDto) {
-        const order = await new this.orderModel(createOrderDto);
+    async create(createMessageDto) {
+        const order = await new this.orderModel(createMessageDto);
         await order.save();
         return order;
     }
-    async update(updateOrderDto, _id) {
-        const order = await this.orderModel.findOneAndUpdate({ _id }, updateOrderDto);
+    async update(updateOrderDto, order_id) {
+        const order = await this.orderModel.findOneAndUpdate({ _id: order_id }, updateOrderDto);
+        return order;
+    }
+    async delete(order_id) {
+        const order = await this.orderModel.findOneAndDelete({ _id: order_id });
+        return order;
+    }
+    async findAll() {
+        return await this.orderModel.find();
+    }
+    async findOne(order_id) {
+        return await this.orderModel.find({ _id: order_id });
     }
 };
 OrdersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(schema_1.Order.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model,
-        users_1.UsersService])
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], OrdersService);
 exports.OrdersService = OrdersService;
 //# sourceMappingURL=order.service.js.map
