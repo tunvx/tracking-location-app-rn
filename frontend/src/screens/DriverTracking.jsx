@@ -83,13 +83,13 @@ function TrackingRealtime(props) {
 			// console.log(backgroundStatus.status);
 
 			let position = await Location.getCurrentPositionAsync();
-			let coordss = await Location.geocodeAsync(
-				"136 Đ. Xuân Thủy, Dịch Vọng Hậu, Cầu Giấy, Hà Nội, Vietnam"
-			);
+			// let coordss = await Location.geocodeAsync(
+			// 	"136 Đ. Xuân Thủy, Dịch Vọng Hậu, Cầu Giấy, Hà Nội, Vietnam"
+			// );
 			// 21.030410221614545, 105.7826646342802
 			// 21.0288247, 105.7817389
 			console.log("===================== start ========================");
-			console.log(coordss);
+			// console.log(coordss);
 			// console.log(routeCoordinates.length);
 			// console.log(followingButton);
 			// console.log(position);
@@ -107,6 +107,7 @@ function TrackingRealtime(props) {
 				setDistanceTraveled(distanceTraveled + distanceCalculate);
 				setCoordinate(new AnimatedRegion(position.coords));
 			}
+			console.log(routeCoordinates.length);
 		}, 1000);
 		return () => clearInterval(posotionInterval);
 	}, [routeCoordinates, distanceTraveled, prevCoordinate, coordinate]); // ;

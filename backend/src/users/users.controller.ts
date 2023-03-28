@@ -48,6 +48,7 @@ export class UsersController {
   @Get('me')
   async me(@Req() request) {
     const { _id } = request.user;
+    console.log(`User retrieved infomation of order ${_id}`);
     const user = await this.usersService.findByObjID(_id);
     const { hashedPassword, ...userInfo } = user;
     return userInfo;

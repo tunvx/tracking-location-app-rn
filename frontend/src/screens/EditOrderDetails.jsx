@@ -8,11 +8,13 @@ import {
 	ScrollView,
 	StyleSheet,
 	TouchableOpacity,
+	Alert,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { colors, mockdata, fontSizes } from "../constants";
 import { DriverToolBar } from "../components";
+import * as SecureStore from "expo-secure-store";
 
 function EditOrderDetails(props) {
 	// const order = mockdata.onOrdersData[0];
@@ -20,23 +22,30 @@ function EditOrderDetails(props) {
 	// const order_id = props.route.params.order_id;
 	const [order, setOrder] = useState(props.route.params.order);
 	const [customer, setCustomer] = useState(null);
-	const [deliver, setDeliver] = useState();
+	const [deliver, setDeliver] = useState(null);
 
 	useEffect(() => {
-		console.log(">>>> Route >>>>");
-		console.log(order);
-		console.log(order.customerId);
-		console.log(order.deliverId);
-		fetch(`http://192.168.0.187:3000/users/u/${order.customerId}`, {
-			method: "GET",
-		})
-			.then((response) => response.json())
-			.then((response) => {
-				console.log("day roi ne");
-				console.log(response);
-				setCustomer(response);
-			});
-		console.log(customer);
+		async function fetchData() {
+			if (order.customerId !== null) {
+				await SecureStore.getItemAsync("accessToken").then((accessToken) => {
+					fetch(`http://192.168.0.187:3000/users/u/${order.customerId}`, {
+						method: "GET",
+						headers: {
+							Accept: "application/json",
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + accessToken,
+						},
+					})
+						.then((response) => response.json())
+						.then((response) => {
+							// console.log("Fetching orders....");
+							// console.log(response);
+							setCustomer(response);
+						});
+				});
+			}
+		}
+		fetchData();
 	}, []);
 
 	return (
@@ -46,17 +55,6 @@ function EditOrderDetails(props) {
 					<Text style={styles.textTitleStyle}>Thông tin đơn giao</Text>
 				</View>
 				<View style={styles.cellMiddle}>
-					{/* <View style={styles.cellMiddleChild}>
-					<Text style={styles.textMiddleStyle}>Mã đơn hàng:</Text>
-					<TextInput
-						defaultValue={order._id.toString() || ""}
-						style={styles.textInputMiddleStyle}
-						placeholder="Nhập ..."
-					></TextInput>
-					<TouchableOpacity>
-						<Entypo name="pencil" size={22} color="black" />
-					</TouchableOpacity>
-				</View> */}
 					<View style={styles.cellMiddleChild}>
 						<Text style={styles.textMiddleStyle}>Tên hàng: </Text>
 						<TextInput
@@ -155,23 +153,35 @@ function EditOrderDetails(props) {
 					>
 						<View style={{ width: "65%" }}></View>
 						<TouchableOpacity
-							onPress={() => {
-								console.log(order._id);
-								fetch(`http://192.168.0.187:3000/orders/update/${order._id}`, {
-									method: "PATCH",
-									headers: { "Content-Type": "application/json" },
-									body: JSON.stringify({
-										note: order.note,
-										predictTime: order.predictTime,
-									}),
-								}).then((response) => {
-									if (response.ok) {
-										response.json().then((data) => {
-											console.log("Return response::");
-											console.log(data);
+							onPress={async () => {
+								console.log("Press Save button");
+								await SecureStore.getItemAsync("accessToken").then(
+									(accessToken) => {
+										fetch(
+											`http://192.168.0.187:3000/orders/update/${order._id}`,
+											{
+												method: "PATCH",
+												headers: {
+													Accept: "application/json",
+													"Content-Type": "application/json",
+													Authorization: "Bearer " + accessToken,
+												},
+												body: JSON.stringify({
+													note: order.note,
+													predictTime: order.predictTime,
+												}),
+											}
+										).then((response) => {
+											if (response.ok) {
+												response.json().then((data) => {
+													console.log("Return response::");
+													console.log(data);
+												});
+											}
 										});
 									}
-								});
+								);
+								Alert.alert("Đã lưu thông tin sửa đổi");
 							}}
 						>
 							<FontAwesome name="save" size={32} color="black" />

@@ -19,142 +19,155 @@ import {
 } from "@expo/vector-icons";
 import { colors, mockdata, fontSizes } from "../constants";
 import { DriverToolBar } from "../components";
+import * as SecureStore from "expo-secure-store";
 
 function ImportOnOrders(props) {
 	// const orders = mockdata.ordersData;
 
-	const [orders, setOrders] = useState(mockdata.ordersData);
+	const [orders, setOrders] = useState(null);
 	const [onOrders, setOnOrders] = useState([]);
 
 	useEffect(() => {
-		fetch("http://192.168.0.187:3000/orders/all", {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((response) => response.json())
-			.then((response) => {
-				console.log("Fetching orders");
-				console.log(response);
-				setOrders(response);
+		async function fetchData() {
+			await SecureStore.getItemAsync("accessToken").then((accessToken) => {
+				fetch("http://192.168.0.187:3000/orders/all", {
+					method: "GET",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + accessToken,
+					},
+				})
+					.then((response) => response.json())
+					.then((response) => {
+						// console.log("Fetching orders....");
+						// console.log(response);
+						setOrders(response);
+					});
 			});
+		}
+		fetchData();
 	}, []);
 
 	return (
-		<SafeAreaView style={{ backgroundColor: "white", flex: 100 }}>
-			<View style={styles.cellHead}>
-				<Text style={styles.textTitleStyle}>Nhập các đơn giao</Text>
-			</View>
-			<View style={styles.cellMiddle}>
-				<View style={styles.cellInfoStyle}>
-					<Text style={styles.textInfoStyle}>Tất cả các đơn hàng</Text>
+		orders !== null && (
+			<SafeAreaView style={{ backgroundColor: "white", flex: 100 }}>
+				<View style={styles.cellHead}>
+					<Text style={styles.textTitleStyle}>Nhập các đơn giao</Text>
 				</View>
-				<DataTable
-					style={{
-						backgroundColor: colors.textinputBackground,
-						overflow: "scroll",
-					}}
-				>
-					<DataTable.Header>
-						<DataTable.Title>Hình ảnh</DataTable.Title>
-						<DataTable.Title>Tên sản phẩm</DataTable.Title>
-						<DataTable.Title>Địa chỉ</DataTable.Title>
-						<DataTable.Title style={{ justifyContent: "center" }}>
-							Chọn giao
-						</DataTable.Title>
-					</DataTable.Header>
-					<ScrollView>
-						{orders.map((order) => (
-							<DataTable.Row key={order._id}>
-								<DataTable.Cell>
-									<TouchableOpacity>
+				<View style={styles.cellMiddle}>
+					<View style={styles.cellInfoStyle}>
+						<Text style={styles.textInfoStyle}>Tất cả các đơn hàng</Text>
+					</View>
+					<DataTable
+						style={{
+							backgroundColor: colors.textinputBackground,
+							overflow: "scroll",
+						}}
+					>
+						<DataTable.Header>
+							<DataTable.Title>Hình ảnh</DataTable.Title>
+							<DataTable.Title>Tên sản phẩm</DataTable.Title>
+							<DataTable.Title>Địa chỉ</DataTable.Title>
+							<DataTable.Title style={{ justifyContent: "center" }}>
+								Chọn giao
+							</DataTable.Title>
+						</DataTable.Header>
+						<ScrollView>
+							{orders.map((order) => (
+								<DataTable.Row key={order._id}>
+									<DataTable.Cell>
+										<TouchableOpacity>
+											<FontAwesome
+												name="product-hunt"
+												size={24}
+												color="black"
+											/>
+										</TouchableOpacity>
+									</DataTable.Cell>
+									<DataTable.Cell>{order.productName}</DataTable.Cell>
+									<DataTable.Cell>{order.address}</DataTable.Cell>
+									<DataTable.Cell style={{ justifyContent: "center" }}>
+										<TouchableOpacity
+											onPress={() => {
+												// list below
+												setOnOrders(onOrders.concat([order]));
+
+												// list above
+												setOrders((orders) =>
+													orders.filter((element) => element !== order)
+												);
+											}}
+										>
+											<MaterialIcons
+												name="delivery-dining"
+												size={24}
+												color="black"
+											/>
+										</TouchableOpacity>
+									</DataTable.Cell>
+								</DataTable.Row>
+							))}
+						</ScrollView>
+					</DataTable>
+				</View>
+				<View style={styles.cellTail}>
+					<View
+						style={{
+							...styles.cellInfoStyle,
+							height: 5,
+							backgroundColor: colors.textinputBackground,
+						}}
+					></View>
+					<View style={styles.cellInfoStyle}>
+						<Text style={styles.textInfoStyle}>Các đơn hàng nhập giao</Text>
+					</View>
+					<DataTable
+						style={{
+							backgroundColor: colors.textinputBackground,
+							alignSelf: "baseline",
+							overflow: "scroll",
+						}}
+					>
+						<DataTable.Header>
+							<DataTable.Title>Hình ảnh</DataTable.Title>
+							<DataTable.Title>Tên sản phẩm</DataTable.Title>
+							<DataTable.Title>Địa chỉ</DataTable.Title>
+							<DataTable.Title style={{ justifyContent: "center" }}>
+								Đã chọn giao
+							</DataTable.Title>
+						</DataTable.Header>
+						<ScrollView>
+							{onOrders.map((order) => (
+								<DataTable.Row key={order._id}>
+									<DataTable.Cell>
 										<FontAwesome name="product-hunt" size={24} color="black" />
-									</TouchableOpacity>
-								</DataTable.Cell>
-								<DataTable.Cell>{order.productName}</DataTable.Cell>
-								<DataTable.Cell>{order.address}</DataTable.Cell>
-								<DataTable.Cell style={{ justifyContent: "center" }}>
-									<TouchableOpacity
-										onPress={() => {
-											// list below
-											setOnOrders(onOrders.concat([order]));
+									</DataTable.Cell>
+									<DataTable.Cell>{order.productName}</DataTable.Cell>
+									<DataTable.Cell>{order.address}</DataTable.Cell>
+									<DataTable.Cell style={{ justifyContent: "center" }}>
+										<TouchableOpacity
+											onPress={() => {
+												// list above
+												setOrders(orders.concat([order]));
 
-											// list above
-											setOrders((orders) =>
-												orders.filter((element) => element !== order)
-											);
-										}}
-									>
-										<MaterialIcons
-											name="delivery-dining"
-											size={24}
-											color="black"
-										/>
-									</TouchableOpacity>
-								</DataTable.Cell>
-							</DataTable.Row>
-						))}
-					</ScrollView>
-				</DataTable>
-			</View>
-			<View style={styles.cellTail}>
-				<View
-					style={{
-						...styles.cellInfoStyle,
-						height: 5,
-						backgroundColor: colors.textinputBackground,
-					}}
-				></View>
-				<View style={styles.cellInfoStyle}>
-					<Text style={styles.textInfoStyle}>Các đơn hàng nhập giao</Text>
+												// list below
+												setOnOrders((onOrders) =>
+													onOrders.filter((element) => element !== order)
+												);
+											}}
+										>
+											<AntDesign name="checkcircle" size={24} color="black" />
+										</TouchableOpacity>
+									</DataTable.Cell>
+								</DataTable.Row>
+							))}
+						</ScrollView>
+					</DataTable>
 				</View>
-				<DataTable
-					style={{
-						backgroundColor: colors.textinputBackground,
-						alignSelf: "baseline",
-						overflow: "scroll",
-					}}
-				>
-					<DataTable.Header>
-						<DataTable.Title>Hình ảnh</DataTable.Title>
-						<DataTable.Title>Tên sản phẩm</DataTable.Title>
-						<DataTable.Title>Địa chỉ</DataTable.Title>
-						<DataTable.Title style={{ justifyContent: "center" }}>
-							Đã chọn giao
-						</DataTable.Title>
-					</DataTable.Header>
-					<ScrollView>
-						{onOrders.map((order) => (
-							<DataTable.Row key={order._id}>
-								<DataTable.Cell>
-									<FontAwesome name="product-hunt" size={24} color="black" />
-								</DataTable.Cell>
-								<DataTable.Cell>{order.productName}</DataTable.Cell>
-								<DataTable.Cell>{order.address}</DataTable.Cell>
-								<DataTable.Cell style={{ justifyContent: "center" }}>
-									<TouchableOpacity
-										onPress={() => {
-											// list above
-											setOrders(orders.concat([order]));
-
-											// list below
-											setOnOrders((onOrders) =>
-												onOrders.filter((element) => element !== order)
-											);
-										}}
-									>
-										<AntDesign name="checkcircle" size={24} color="black" />
-									</TouchableOpacity>
-								</DataTable.Cell>
-							</DataTable.Row>
-						))}
-					</ScrollView>
-				</DataTable>
-			</View>
-			<DriverToolBar onOrders={onOrders} />
-		</SafeAreaView>
+				<DriverToolBar onOrders={onOrders} />
+			</SafeAreaView>
+		)
 	);
 }
 

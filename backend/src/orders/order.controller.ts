@@ -24,12 +24,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { OrdersService } from './order.service';
 import { CreateOrderDto, UpdateOrderDto } from './dto';
 
-import ResponseData from 'src/utils/response-data';
-
 @ApiTags('Orders')
-// @ApiBearerAuth()
-// @ApiForbiddenResponse({ description: 'Permission denied' })
-// @UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
+@ApiForbiddenResponse({ description: 'Permission denied' })
+@UseGuards(AuthGuard('jwt'))
 @Controller()
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
@@ -44,8 +42,7 @@ export class OrdersController {
   @Post('orders/create')
   async createNewOrder(@Req() req, @Body() createOrderDto: CreateOrderDto) {
     //  Assign owner of message
-    // const { _id } = req.user;
-
+    const { _id } = req.user;
     const order = this.ordersService.create(createOrderDto);
     return order;
   }
@@ -60,8 +57,8 @@ export class OrdersController {
   @Get('orders/all')
   async getAllOrders(@Req() req) {
     //  Assign owner of message
-    // const { _id } = req.user;
-
+    console.log(req);
+    const { _id } = req.user;
     const orders = this.ordersService.findAll();
     return orders;
   }
@@ -75,13 +72,14 @@ export class OrdersController {
   @Get('orders/get/:id')
   async getOneOrder(@Req() req, @Param('id') orderId: string) {
     //  Assign owner of message
-    // const { _id } = req.user;
+    const { _id } = req.user;
+    console.log(`User retrieved infomation of order ${_id}`);
 
     const orders = this.ordersService.findOne(orderId);
     return orders;
   }
 
-  // OWNER UPDATE MESSAGE'S CONTENT
+  // OWNER UPDATE ORDER'S INFO
   @ApiOperation({
     summary: 'Updates the order content by ID',
     description: 'Updates the order content by ID',
@@ -99,7 +97,7 @@ export class OrdersController {
     @Body() updateOrderDto: UpdateOrderDto,
   ) {
     // get the Id of user who request edit content
-    // const { _id } = req.user;
+    const { _id } = req.user;
     const updatedOrder = await this.ordersService.update(
       updateOrderDto,
       orderId,

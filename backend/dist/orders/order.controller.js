@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrdersController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
+const passport_1 = require("@nestjs/passport");
 const order_service_1 = require("./order.service");
 const dto_1 = require("./dto");
 let OrdersController = class OrdersController {
@@ -22,18 +23,24 @@ let OrdersController = class OrdersController {
         this.ordersService = ordersService;
     }
     async createNewOrder(req, createOrderDto) {
+        const { _id } = req.user;
         const order = this.ordersService.create(createOrderDto);
         return order;
     }
     async getAllOrders(req) {
+        console.log(req);
+        const { _id } = req.user;
         const orders = this.ordersService.findAll();
         return orders;
     }
     async getOneOrder(req, orderId) {
+        const { _id } = req.user;
+        console.log(`User retrieved infomation of order ${_id}`);
         const orders = this.ordersService.findOne(orderId);
         return orders;
     }
     async updateInfoOrder(orderId, req, updateOrderDto) {
+        const { _id } = req.user;
         const updatedOrder = await this.ordersService.update(updateOrderDto, orderId);
         console.log(updateOrderDto);
         return updatedOrder;
@@ -101,6 +108,9 @@ __decorate([
 ], OrdersController.prototype, "updateInfoOrder", null);
 OrdersController = __decorate([
     (0, swagger_1.ApiTags)('Orders'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiForbiddenResponse)({ description: 'Permission denied' }),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [order_service_1.OrdersService])
 ], OrdersController);

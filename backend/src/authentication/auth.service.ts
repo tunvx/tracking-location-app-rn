@@ -62,7 +62,8 @@ export class AuthService {
       const user = await this.userService.findByEmail(authUserDto.email);
       await this.verifyPassword(authUserDto.password, user.hashedPassword);
       delete user.hashedPassword;
-      return this.signJwtToken(user._id.toString(), user.email);
+      const accessToken = this.signJwtToken(user._id.toString(), user.email);
+      return accessToken;
     } catch (err) {
       throw new ForbiddenException('Wrong credentials provided');
     }

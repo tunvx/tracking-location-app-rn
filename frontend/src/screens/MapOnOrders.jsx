@@ -58,7 +58,7 @@ function MapOnOrders(props) {
 		props?.route?.params?.onOrders || []
 	);
 
-	console.log(ordersAreBeingDelivered);
+	// console.log(ordersAreBeingDelivered);
 
 	const [followingButton, setFollwingButton] = useState({
 		following: true,
@@ -69,10 +69,10 @@ function MapOnOrders(props) {
 	useEffect(() => {
 		// setOrdersAreBeingDelivered(mockdata.onOrdersData);
 		// console.log(props.route.params);
-		let o = ordersAreBeingDelivered[0];
-		console.log(o);
-		console.log("asdjfhkasjdhfkja");
-		console.log(Location.geocodeAsync(o.address));
+		// let o = ordersAreBeingDelivered[0];
+		// console.log(o);
+		// console.log("asdjfhkasjdhfkja");
+		// console.log(Location.geocodeAsync(o.address));
 	}, []);
 
 	{

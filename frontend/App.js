@@ -13,6 +13,7 @@ import {
 	EditOrderDetails,
 	ImportOnOrders,
 } from "./src/screens";
+import * as SecureStore from "expo-secure-store";
 
 const RootStack = createNativeStackNavigator();
 
@@ -27,12 +28,6 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<RootStack.Navigator
-				screenListeners={{
-					focus: (e) => {
-						// code you wanna execute goes here
-						console.log("Focus has changed");
-					},
-				}}
 				initialRouteName="Welcome"
 				screenOptions={{
 					headerShown: false,

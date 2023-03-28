@@ -17,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { colors, images, icons, fontSizes, keys } from "../constants";
 import { isValidateEmail, isValidatePassword } from "../utilies";
+import * as SecureStore from "expo-secure-store";
 
 function Login(props) {
 	const navigation = useNavigation();
@@ -106,7 +107,7 @@ function Login(props) {
 						padding: 5,
 						borderBottomWidth: 1,
 					}}
-					defaultValue={"driverxx@gmail.com"}
+					defaultValue={"driver05@gmail.com"}
 					placeholder="example@gmail.com"
 					placeholderTextColor={colors.placeholderColor}
 				/>
@@ -180,12 +181,13 @@ function Login(props) {
 								}),
 							}).then((response) => {
 								if (response.ok) {
-									response.json().then((data) => {
-										console.log("Return response::");
-										console.log(data);
-										console.log(jwt_decode(data.accessToken));
+									response.json().then(async (data) => {
+										await SecureStore.setItemAsync(
+											"accessToken",
+											data.accessToken
+										);
 									});
-									// navigation.navigate("ImportOnOrders", );
+									navigation.navigate("ImportOnOrders");
 								} else {
 									Alert.alert("Thông tin tài khoản không tồn tại");
 								}

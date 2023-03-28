@@ -41,6 +41,14 @@ let JwtStratege = class JwtStratege extends (0, passport_1.PassportStrategy)(pas
         const { hashedPassword } = user, userInfo = __rest(user, ["hashedPassword"]);
         return userInfo;
     }
+    async validator(payload) {
+        const user = await this.userService.findByObjID(payload.sub);
+        if (!user) {
+            throw new common_1.UnauthorizedException();
+        }
+        const { hashedPassword } = user, userInfo = __rest(user, ["hashedPassword"]);
+        return userInfo;
+    }
 };
 JwtStratege = __decorate([
     (0, common_1.Injectable)(),
