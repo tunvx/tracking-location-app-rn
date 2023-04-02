@@ -7,9 +7,15 @@ import { User } from 'src/users/schema';
 import { Coords } from 'src/utils';
 
 export class CreateRouterDto {
-  @ApiProperty({ required: true })
-  deliver: string; // set from request user_id
+  @ApiProperty({ required: false, default: '' })
+  deliverId: string; // set from request user_id
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: false, default: [] })
   coords: Coords[] = [];
+
+  @ApiProperty({ required: false, default: [] })
+  times: string[] = [];
+
+  @ApiProperty({ required: false, default: 0 })
+  distanceTraveled: number;
 }

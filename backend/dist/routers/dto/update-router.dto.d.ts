@@ -1,4 +1,6 @@
 import { Coords } from 'src/utils';
 export declare class UpdateRouterDto {
-    coords: Coords[];
+    coord: Coords;
+    time: string;
+    distanceTraveled: number;
 }

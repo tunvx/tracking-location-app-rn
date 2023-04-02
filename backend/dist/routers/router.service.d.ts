@@ -33,10 +33,14 @@ export declare class RoutersService {
     create(createRouterDto: CreateRouterDto): Promise<Router & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    update(updateRouterDto: UpdateRouterDto, user_id: any): Promise<Router & import("mongoose").Document<any, any, any> & {
+    updateRouter(updateRouterDto: UpdateRouterDto, deliver_id: string): Promise<Router & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
+    deleteRouter(id_router: string): Promise<Router & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     }>;
     getByID(_id: any): Promise<Router & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     }>;
+    getLastCoordsTodayDeliver(deliverId: any): Promise<import("mongoose").LeanDocument<import("src/utils").Coords>>;
 }

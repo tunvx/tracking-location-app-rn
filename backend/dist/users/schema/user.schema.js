@@ -8,17 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var User_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserSchema = exports.User = exports.ShortUserInfo = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const class_transformer_1 = require("class-transformer");
-const mongoose_2 = require("mongoose");
 const class_validator_1 = require("class-validator");
 class ShortUserInfo {
 }
 exports.ShortUserInfo = ShortUserInfo;
-let User = User_1 = class User {
+let User = class User {
     constructor() {
         this.routers = [];
     }
@@ -47,12 +45,12 @@ __decorate([
 ], User.prototype, "hashedPassword", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: '' }],
+        required: true,
+        default: [],
     }),
-    (0, class_transformer_1.Type)(() => User_1),
     __metadata("design:type", Array)
 ], User.prototype, "routers", void 0);
-User = User_1 = __decorate([
+User = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], User);
 exports.User = User;

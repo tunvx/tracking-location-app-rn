@@ -17,7 +17,7 @@ import {
 	AntDesign,
 	Entypo,
 } from "@expo/vector-icons";
-import { colors, mockdata, fontSizes } from "../constants";
+import { colors, mockdata, fontSizes, URL } from "../constants";
 import { DriverToolBar } from "../components";
 import * as SecureStore from "expo-secure-store";
 
@@ -30,7 +30,7 @@ function ImportOnOrders(props) {
 	useEffect(() => {
 		async function fetchData() {
 			await SecureStore.getItemAsync("accessToken").then((accessToken) => {
-				fetch("http://192.168.0.187:3000/orders/all", {
+				fetch(URL.ORDER_GET_ALL, {
 					method: "GET",
 					headers: {
 						Accept: "application/json",

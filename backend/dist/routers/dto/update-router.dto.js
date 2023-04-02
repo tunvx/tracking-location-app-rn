@@ -11,14 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateRouterDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const utils_1 = require("../../utils");
 class UpdateRouterDto {
-    constructor() {
-        this.coords = [];
-    }
 }
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false }),
-    __metadata("design:type", Array)
-], UpdateRouterDto.prototype, "coords", void 0);
+    (0, swagger_1.ApiProperty)({ required: false, default: { latitude: -1, longitude: -1 } }),
+    __metadata("design:type", utils_1.Coords)
+], UpdateRouterDto.prototype, "coord", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: '' }),
+    __metadata("design:type", String)
+], UpdateRouterDto.prototype, "time", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 0 }),
+    __metadata("design:type", Number)
+], UpdateRouterDto.prototype, "distanceTraveled", void 0);
 exports.UpdateRouterDto = UpdateRouterDto;
 //# sourceMappingURL=update-router.dto.js.map

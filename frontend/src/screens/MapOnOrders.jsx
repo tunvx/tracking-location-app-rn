@@ -290,7 +290,7 @@ function MapOnOrders(props) {
 										{
 											text: "OK",
 											onPress: () => {
-												console.log("OK Pressed");
+												// console.log("OK Pressed");
 												setOrdersAreBeingDelivered((ordersAreBeingDelivered) =>
 													ordersAreBeingDelivered
 														.filter((order) => order._id !== orderInHand._id)

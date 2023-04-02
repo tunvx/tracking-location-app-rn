@@ -4,7 +4,8 @@ import { Transform, Type } from 'class-transformer';
 import mongoose, { Document } from 'mongoose';
 import { type } from 'os';
 import { User } from 'src/users/schema';
-import { Coords, getTime } from 'src/utils';
+import { Coords } from 'src/utils';
+import { getToday } from 'src/utils/backup';
 
 export type RouterDocument = Router & Document;
 
@@ -18,17 +19,30 @@ export class Router {
     ref: 'User',
     required: true,
   })
-  deliver: string;
+  deliverId: string;
 
   @Prop({
-    default: getTime(),
+    default: getToday(),
   })
   time: string;
 
   @Prop({
     required: true,
+    default: [],
   })
   coords: Coords[] = [];
+
+  @Prop({
+    required: true,
+    default: [],
+  })
+  times: string[] = [];
+
+  @Prop({
+    required: true,
+    default: 0,
+  })
+  distanceTraveled: number;
 }
 
 export const RouterSchema = SchemaFactory.createForClass(Router);

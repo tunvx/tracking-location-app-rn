@@ -15,9 +15,10 @@ import {
 import jwt_decode from "jwt-decode";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { colors, images, icons, fontSizes, keys } from "../constants";
+import { colors, images, icons, fontSizes, keys, URL } from "../constants";
 import { isValidateEmail, isValidatePassword } from "../utilies";
 import * as SecureStore from "expo-secure-store";
+import jwtDecode from "jwt-decode";
 
 function Login(props) {
 	const navigation = useNavigation();
@@ -169,10 +170,7 @@ function Login(props) {
 				>
 					<TouchableOpacity
 						onPress={() => {
-							// if (email === "driverxx@gmail.com" && password === "1234") {
-							// 	navigation.navigate("ImportOnOrders");
-							// }
-							fetch("http://192.168.0.187:3000/login", {
+							fetch(URL.LOGIN, {
 								method: "POST",
 								headers: { "Content-Type": "application/json" },
 								body: JSON.stringify({
@@ -185,6 +183,25 @@ function Login(props) {
 										await SecureStore.setItemAsync(
 											"accessToken",
 											data.accessToken
+										);
+										await SecureStore.getItemAsync("accessToken").then(
+											async (token) => {
+												// Create a new router for deliver for today
+												fetch(URL.ROUTER_CREATE, {
+													method: "POST",
+													headers: {
+														Accept: "application/json",
+														"Content-Type": "application/json",
+														Authorization: "Bearer " + token,
+													},
+													body: JSON.stringify({}),
+												}).then((response) => {
+													// console.log(response.json());
+												});
+
+												// create router for today before set user
+												await SecureStore.setItemAsync("isLoggedIn", "true");
+											}
 										);
 									});
 									navigation.navigate("ImportOnOrders");

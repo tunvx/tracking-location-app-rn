@@ -6,6 +6,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ShortUserInfo, User, UserDocument } from './schema';
 import { AuthUserDto } from 'src/authentication/dto';
 import * as bcrypt from 'bcrypt';
+import { getTime, RouterDate } from 'src/utils';
+import { getToday } from 'src/utils/backup';
 
 @Injectable()
 export class UsersService {
@@ -42,6 +44,8 @@ export class UsersService {
   async findByObjID(id: string): Promise<User> {
     try {
       const user = await this.userModel.findOne({ _id: id }).lean();
+      // user.routers = [];
+      // await user.save();
       return user;
     } catch (err) {
       if (err.code == 404) {
@@ -74,13 +78,26 @@ export class UsersService {
     }
   }
 
-  async addRouter(userId, routerId) {
+  async pushMyListRouters(userId, routerId) {
     const user = await this.userModel.findById(userId);
     if (!user) {
       console.log('User not found');
       return;
     }
-    await user.routers.push(routerId);
+    await user.routers.push({ time: getToday(), id_router: routerId });
+    await user.save();
+    return user;
+  }
+
+  async popMyListRouters(deliverId, time) {
+    const user = await this.userModel.findById(deliverId);
+    if (!user) {
+      console.log('User not found');
+      return;
+    }
+    user.routers = user.routers.filter(
+      (routerdate) => routerdate.time !== time,
+    );
     await user.save();
     return user;
   }

@@ -23,20 +23,30 @@ let RoutersController = class RoutersController {
     constructor(routersService) {
         this.routersService = routersService;
     }
-    async create(req, createRouterDto) {
-        const { _id } = req.user;
-        createRouterDto.deliver = _id;
+    async create(request, createRouterDto) {
+        const { _id } = request.user;
+        console.log(`CreatingRouter ${_id}`);
+        createRouterDto.deliverId = _id;
         return this.routersService.create(createRouterDto);
     }
     async get(req, routerId) {
         const { _id } = req.user;
         return this.routersService.getByID(routerId);
     }
+    async getLastCoords(req) {
+        const { _id } = req.user;
+        console.log('ahaha');
+        console.log(_id);
+        return this.routersService.getLastCoordsTodayDeliver(_id);
+    }
     async update(request, updateRouterDto) {
         const { _id } = request.user;
-        console.log('>>>>>');
-        await this.routersService.update(updateRouterDto, _id);
+        await this.routersService.updateRouter(updateRouterDto, _id);
         return new response_data_1.default(true, { message: 'Update coords list successfully' }, null);
+    }
+    async delete(request, routerId) {
+        const { _id } = request.user;
+        await this.routersService.deleteRouter(routerId);
     }
 };
 __decorate([
@@ -46,7 +56,7 @@ __decorate([
     }),
     (0, swagger_1.ApiOkResponse)({ description: 'Create a new router successfully' }),
     (0, swagger_1.ApiBadRequestResponse)({ description: 'Create a new router failed' }),
-    (0, common_1.Post)(),
+    (0, common_1.Post)('/create'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -60,13 +70,30 @@ __decorate([
     }),
     (0, swagger_1.ApiOkResponse)({ description: 'Get router by ID successfully' }),
     (0, swagger_1.ApiBadRequestResponse)({ description: 'Get router failed' }),
-    (0, common_1.Get)(':id'),
+    (0, common_1.Get)('/get/:id'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], RoutersController.prototype, "get", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Deliver get last coordinates today',
+        description: 'Deliver get last coordinates today',
+    }),
+    (0, swagger_1.ApiOkResponse)({
+        description: 'Deliver get last coordinates today successfully',
+    }),
+    (0, swagger_1.ApiBadRequestResponse)({
+        description: 'Deliver get last coordinates today failed',
+    }),
+    (0, common_1.Get)('/get-last-coordinates'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], RoutersController.prototype, "getLastCoords", null);
 __decorate([
     (0, swagger_1.ApiOperation)({
         summary: 'Update router',
@@ -78,13 +105,31 @@ __decorate([
     (0, swagger_1.ApiBadRequestResponse)({
         description: 'Update array coords failed',
     }),
-    (0, common_1.Patch)(),
+    (0, common_1.Patch)('/deliver-update'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, dto_1.UpdateRouterDto]),
     __metadata("design:returntype", Promise)
 ], RoutersController.prototype, "update", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Delete router',
+        description: 'Delete router',
+    }),
+    (0, swagger_1.ApiOkResponse)({
+        description: 'Delete router successfully',
+    }),
+    (0, swagger_1.ApiBadRequestResponse)({
+        description: 'Delete router failed',
+    }),
+    (0, common_1.Delete)('/delete/:id'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], RoutersController.prototype, "delete", null);
 RoutersController = __decorate([
     (0, swagger_1.ApiTags)('Routers'),
     (0, swagger_1.ApiBearerAuth)(),

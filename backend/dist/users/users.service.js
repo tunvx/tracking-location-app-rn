@@ -19,6 +19,7 @@ const mongoose_2 = require("mongoose");
 const jwt_1 = require("@nestjs/jwt");
 const schema_1 = require("./schema");
 const bcrypt = require("bcrypt");
+const backup_1 = require("../utils/backup");
 let UsersService = class UsersService {
     constructor(userModel, jwtService) {
         this.userModel = userModel;
@@ -73,13 +74,23 @@ let UsersService = class UsersService {
             throw new common_1.HttpException('Something went wrong', err);
         }
     }
-    async addRouter(userId, routerId) {
+    async pushMyListRouters(userId, routerId) {
         const user = await this.userModel.findById(userId);
         if (!user) {
             console.log('User not found');
             return;
         }
-        await user.routers.push(routerId);
+        await user.routers.push({ time: (0, backup_1.getToday)(), id_router: routerId });
+        await user.save();
+        return user;
+    }
+    async popMyListRouters(deliverId, time) {
+        const user = await this.userModel.findById(deliverId);
+        if (!user) {
+            console.log('User not found');
+            return;
+        }
+        user.routers = user.routers.filter((routerdate) => routerdate.time !== time);
         await user.save();
         return user;
     }

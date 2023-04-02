@@ -26,6 +26,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ShortUserInfo, User } from './schema';
 
 import { ResponseData } from 'src/utils';
+import { UpdateRouterDto } from 'src/routers/dto';
+import { RoutersService } from 'src/routers/router.service';
 
 @ApiTags('User')
 @ApiBearerAuth()
@@ -48,7 +50,6 @@ export class UsersController {
   @Get('me')
   async me(@Req() request) {
     const { _id } = request.user;
-    console.log(`User retrieved infomation of order ${_id}`);
     const user = await this.usersService.findByObjID(_id);
     const { hashedPassword, ...userInfo } = user;
     return userInfo;

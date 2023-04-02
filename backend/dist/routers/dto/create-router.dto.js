@@ -14,15 +14,24 @@ const swagger_1 = require("@nestjs/swagger");
 class CreateRouterDto {
     constructor() {
         this.coords = [];
+        this.times = [];
     }
 }
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: true }),
+    (0, swagger_1.ApiProperty)({ required: false, default: '' }),
     __metadata("design:type", String)
-], CreateRouterDto.prototype, "deliver", void 0);
+], CreateRouterDto.prototype, "deliverId", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, swagger_1.ApiProperty)({ required: false, default: [] }),
     __metadata("design:type", Array)
 ], CreateRouterDto.prototype, "coords", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: [] }),
+    __metadata("design:type", Array)
+], CreateRouterDto.prototype, "times", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false, default: 0 }),
+    __metadata("design:type", Number)
+], CreateRouterDto.prototype, "distanceTraveled", void 0);
 exports.CreateRouterDto = CreateRouterDto;
 //# sourceMappingURL=create-router.dto.js.map

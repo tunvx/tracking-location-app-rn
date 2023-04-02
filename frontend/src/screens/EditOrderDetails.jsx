@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import { colors, mockdata, fontSizes } from "../constants";
+import { colors, mockdata, fontSizes, URL } from "../constants";
 import { DriverToolBar } from "../components";
 import * as SecureStore from "expo-secure-store";
 
@@ -28,7 +28,7 @@ function EditOrderDetails(props) {
 		async function fetchData() {
 			if (order.customerId !== null) {
 				await SecureStore.getItemAsync("accessToken").then((accessToken) => {
-					fetch(`http://192.168.0.187:3000/users/u/${order.customerId}`, {
+					fetch(URL.USER_GET_BY_ID + order.customerId, {
 						method: "GET",
 						headers: {
 							Accept: "application/json",
@@ -122,7 +122,7 @@ function EditOrderDetails(props) {
 							placeholder="Nhập ..."
 							onChangeText={(text) => {
 								order.predictTime = text;
-								console.log(order.predictTime);
+								// console.log(order.predictTime);
 							}}
 						></TextInput>
 						<TouchableOpacity>
@@ -154,11 +154,11 @@ function EditOrderDetails(props) {
 						<View style={{ width: "65%" }}></View>
 						<TouchableOpacity
 							onPress={async () => {
-								console.log("Press Save button");
+								// console.log("Press Save button");
 								await SecureStore.getItemAsync("accessToken").then(
 									(accessToken) => {
 										fetch(
-											`http://192.168.0.187:3000/orders/update/${order._id}`,
+											URL.ORDER_UPDATE_BY_ID + order._id, // `http://192.168.0.187:3000/orders/update/${order._id}`,
 											{
 												method: "PATCH",
 												headers: {
@@ -174,8 +174,8 @@ function EditOrderDetails(props) {
 										).then((response) => {
 											if (response.ok) {
 												response.json().then((data) => {
-													console.log("Return response::");
-													console.log(data);
+													// console.log("Return response::");
+													// console.log(data);
 												});
 											}
 										});

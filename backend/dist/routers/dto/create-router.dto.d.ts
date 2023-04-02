@@ -1,5 +1,7 @@
 import { Coords } from 'src/utils';
 export declare class CreateRouterDto {
-    deliver: string;
+    deliverId: string;
     coords: Coords[];
+    times: string[];
+    distanceTraveled: number;
 }

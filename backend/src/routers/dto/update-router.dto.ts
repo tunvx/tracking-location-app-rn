@@ -7,6 +7,12 @@ import { User } from 'src/users/schema';
 import { Coords } from 'src/utils';
 
 export class UpdateRouterDto {
-  @ApiProperty({ required: false })
-  coords: Coords[] = [];
+  @ApiProperty({ required: false, default: { latitude: -1, longitude: -1 } })
+  coord: Coords;
+
+  @ApiProperty({ required: false, default: '' })
+  time: string;
+
+  @ApiProperty({ required: false, default: 0 })
+  distanceTraveled: number;
 }

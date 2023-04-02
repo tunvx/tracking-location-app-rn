@@ -36,7 +36,6 @@ let UsersController = class UsersController {
     }
     async me(request) {
         const { _id } = request.user;
-        console.log(`User retrieved infomation of order ${_id}`);
         const user = await this.usersService.findByObjID(_id);
         const { hashedPassword } = user, userInfo = __rest(user, ["hashedPassword"]);
         return userInfo;

@@ -1,1 +1,2 @@
-export declare function getTime(): string;
+export declare function getToday(): string;
+export declare function getTimeNow(): string;

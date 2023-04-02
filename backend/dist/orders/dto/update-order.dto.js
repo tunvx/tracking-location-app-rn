@@ -48,6 +48,7 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)({
         required: false,
+        default: { latitude: -1, longitude: -1 },
     }),
     __metadata("design:type", utils_1.Coords)
 ], UpdateOrderDto.prototype, "deliveryCoordinates", void 0);

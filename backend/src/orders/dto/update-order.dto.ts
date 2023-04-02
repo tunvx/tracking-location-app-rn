@@ -34,6 +34,7 @@ export class UpdateOrderDto {
 
   @ApiProperty({
     required: false,
+    default: { latitude: -1, longitude: -1 },
   })
   deliveryCoordinates: Coords;
 }

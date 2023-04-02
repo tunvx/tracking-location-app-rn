@@ -9,7 +9,7 @@ export declare class UsersController {
         _id: import("mongoose").Schema.Types.ObjectId;
         name: string;
         email: string;
-        routers?: string[];
+        routers?: import("src/utils").RouterDate[];
     }>;
     getByObjId(id: string): Promise<User>;
     update(request: any, updateUserDto: UpdateUserDto): Promise<ResponseData>;

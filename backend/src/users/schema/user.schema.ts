@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform, Type } from 'class-transformer';
 import mongoose, { Document, ObjectId } from 'mongoose';
-
 import {} from '@nestjs/common';
 import {
   IsEmail,
@@ -10,6 +9,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { RouterDate } from 'src/utils';
 
 export type UserDocument = User & Document;
 
@@ -39,9 +39,9 @@ export class User {
   hashedPassword?: string;
 
   @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: '' }],
+    required: true,
+    default: [],
   })
-  @Type(() => User)
-  routers?: string[] = [];
+  routers?: RouterDate[] = [];
 }
 export const UserSchema = SchemaFactory.createForClass(User);

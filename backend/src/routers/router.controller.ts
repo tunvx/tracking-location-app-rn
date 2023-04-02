@@ -40,10 +40,12 @@ export class RoutersController {
   })
   @ApiOkResponse({ description: 'Create a new router successfully' })
   @ApiBadRequestResponse({ description: 'Create a new router failed' })
-  @Post()
-  async create(@Req() req, @Body() createRouterDto: CreateRouterDto) {
-    const { _id } = req.user;
-    createRouterDto.deliver = _id;
+  @Post('/create')
+  async create(@Req() request, @Body() createRouterDto: CreateRouterDto) {
+    const { _id } = request.user;
+    console.log(`CreatingRouter ${_id}`);
+    createRouterDto.deliverId = _id;
+    // console.log(createRouterDto);
     return this.routersService.create(createRouterDto);
   }
 
@@ -54,10 +56,29 @@ export class RoutersController {
   })
   @ApiOkResponse({ description: 'Get router by ID successfully' })
   @ApiBadRequestResponse({ description: 'Get router failed' })
-  @Get(':id')
+  @Get('/get/:id')
   async get(@Req() req, @Param('id') routerId: string) {
     const { _id } = req.user;
     return this.routersService.getByID(routerId);
+  }
+
+  // GET SERVER, MEMBER GET SERVER
+  @ApiOperation({
+    summary: 'Deliver get last coordinates today',
+    description: 'Deliver get last coordinates today',
+  })
+  @ApiOkResponse({
+    description: 'Deliver get last coordinates today successfully',
+  })
+  @ApiBadRequestResponse({
+    description: 'Deliver get last coordinates today failed',
+  })
+  @Get('/get-last-coordinates')
+  async getLastCoords(@Req() req) {
+    const { _id } = req.user;
+    console.log('ahaha');
+    console.log(_id);
+    return this.routersService.getLastCoordsTodayDeliver(_id);
   }
 
   // UPDATE ROUTER
@@ -71,16 +92,33 @@ export class RoutersController {
   @ApiBadRequestResponse({
     description: 'Update array coords failed',
   })
-  @Patch()
+  @Patch('/deliver-update')
   async update(@Req() request, @Body() updateRouterDto: UpdateRouterDto) {
     const { _id } = request.user;
-    console.log('>>>>>');
-    await this.routersService.update(updateRouterDto, _id);
+    // console.log(_id);
+    await this.routersService.updateRouter(updateRouterDto, _id);
 
     return new ResponseData(
       true,
       { message: 'Update coords list successfully' },
       null,
     );
+  }
+
+  // UPDATE ROUTER
+  @ApiOperation({
+    summary: 'Delete router',
+    description: 'Delete router',
+  })
+  @ApiOkResponse({
+    description: 'Delete router successfully',
+  })
+  @ApiBadRequestResponse({
+    description: 'Delete router failed',
+  })
+  @Delete('/delete/:id')
+  async delete(@Req() request, @Param('id') routerId: string) {
+    const { _id } = request.user;
+    await this.routersService.deleteRouter(routerId);
   }
 }

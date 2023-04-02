@@ -4,6 +4,7 @@ import { User, UserSchema } from './schema';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { JwtService } from '@nestjs/jwt';
+import { RoutersModule } from 'src/routers/router.module';
 
 @Module({
   imports: [

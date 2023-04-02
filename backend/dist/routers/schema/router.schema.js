@@ -13,10 +13,11 @@ exports.RouterSchema = exports.Router = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const class_transformer_1 = require("class-transformer");
 const mongoose_2 = require("mongoose");
-const utils_1 = require("../../utils");
+const backup_1 = require("../../utils/backup");
 let Router = class Router {
     constructor() {
         this.coords = [];
+        this.times = [];
     }
 };
 __decorate([
@@ -30,19 +31,34 @@ __decorate([
         required: true,
     }),
     __metadata("design:type", String)
-], Router.prototype, "deliver", void 0);
+], Router.prototype, "deliverId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        default: (0, utils_1.getTime)(),
+        default: (0, backup_1.getToday)(),
     }),
     __metadata("design:type", String)
 ], Router.prototype, "time", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         required: true,
+        default: [],
     }),
     __metadata("design:type", Array)
 ], Router.prototype, "coords", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true,
+        default: [],
+    }),
+    __metadata("design:type", Array)
+], Router.prototype, "times", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true,
+        default: 0,
+    }),
+    __metadata("design:type", Number)
+], Router.prototype, "distanceTraveled", void 0);
 Router = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Router);
