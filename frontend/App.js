@@ -5,8 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { mockdata, URL } from "./src/constants";
 import {
-	TrackingRealtime,
-	UseHooks,
+	SimulateRealtimeTracking,
 	Welcome,
 	Login,
 	MapOnOrders,
@@ -33,16 +32,9 @@ const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 
 // Set minimum distance to update data
-const MIN_DISTANCE = 0.0; // (km)
+const MIN_DISTANCE = 0.01; // (km)
 
 export default function App() {
-	// useEffect(() => {
-	// 	let posotionInterval = setInterval(async () => {
-	// 		console.log("Entering");
-	// 	}, 1000);
-	// 	return () => clearInterval(posotionInterval);
-	// });
-
 	const [errorMsg, setErrorMsg] = useState(null);
 
 	const [prevCoordinate, setPrevCroodinate] = useState({});
@@ -53,10 +45,6 @@ export default function App() {
 		return haversine(prevCoordinate, newCoords) || 0; // unit: km
 	};
 
-	useEffect(() => {
-		SecureStore.setItemAsync("isLoggedIn", "false");
-	});
-
 	// Request permission right after starting the app
 	useEffect(() => {
 		// After 1s, recall inner function
@@ -66,7 +54,7 @@ export default function App() {
 			await SecureStore.getItemAsync("isLoggedIn").then((data) => {
 				isLoggedIn = data;
 			});
-			// console.log(`Deliver is logged in: ${isLoggedIn}`);
+			console.log(`Deliver is logged in: ${isLoggedIn}`);
 			if (isLoggedIn !== "true") return;
 
 			var accessToken;
@@ -75,7 +63,7 @@ export default function App() {
 			});
 			// console.log(`Access token: ${accessToken}`);
 			if (accessToken === null || accessToken === undefined) return;
-			// console.log(`User: ${jwt_decode(accessToken)}`);
+			console.log(jwt_decode(accessToken));
 
 			// Grant location access || foregroundStatus, backgroundStatus
 			let foregroundStatus = await Location.requestForegroundPermissionsAsync();
@@ -85,28 +73,27 @@ export default function App() {
 			}
 			// console.log(foregroundStatus.status);
 
-			let backgroundStatus = await Location.requestBackgroundPermissionsAsync();
-			if (backgroundStatus.status !== "granted") {
-				setErrorMsg("Background Permission to access location was denied");
-				return;
-			}
+			// let backgroundStatus = await Location.requestBackgroundPermissionsAsync();
+			// if (backgroundStatus.status !== "granted") {
+			// 	setErrorMsg("Background permission to access location was denied");
+			// 	return;
+			// }
 			// console.log(backgroundStatus.status);
 
 			let position = await Location.getCurrentPositionAsync();
 			const { latitude, longitude } = position.coords;
 			const newCoords = { latitude, longitude };
-			// console.log(newCoords);
+			console.log(newCoords);
 
 			// Calculate distance between new and old coordinates - unit: km
 			let distanceCalculate = calcDistance(newCoords);
-			// console.log(`DistanceCalculate: ${distanceCalculate}`);
-			// console.log(distanceCalculate);
+			console.log(`DistanceCalculate: ${distanceCalculate}`);
 			if (distanceTraveled === 0 || distanceCalculate >= MIN_DISTANCE) {
 				// After calculating distance, current coordinate has no value, it's
 				// set all values
 				setPrevCroodinate(newCoords);
 				setDistanceTraveled(distanceTraveled + distanceCalculate);
-				// console.log(`DistanceTraveled: ${distanceTraveled}`);
+				console.log(`DistanceTraveled: ${distanceTraveled}`);
 
 				fetch(URL.ROUTER_UPDATE, {
 					method: "PATCH",
@@ -148,8 +135,8 @@ export default function App() {
 				/>
 				<RootStack.Screen name="ImportOnOrders" component={ImportOnOrders} />
 				<RootStack.Screen
-					name="TrackingRealtime"
-					component={TrackingRealtime}
+					name="SimulateRealtimeTracking"
+					component={SimulateRealtimeTracking}
 				/>
 				<RootStack.Screen name="Welcome" component={Welcome} />
 				<RootStack.Screen name="Login" component={Login} />

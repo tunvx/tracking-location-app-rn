@@ -19,7 +19,7 @@ function DriverToolBar(props) {
 		>
 			<TouchableOpacity
 				onPress={() => {
-					navigation.navigate("TrackingRealtime");
+					navigation.navigate("SimulateRealtimeTracking");
 				}}
 				style={{
 					height: 50,

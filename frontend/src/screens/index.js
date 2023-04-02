@@ -1,4 +1,4 @@
-import TrackingRealtime from "./DriverTracking";
+import SimulateRealtimeTracking from "./SimulateTracking";
 import UseHooks from "./UseHooks";
 import Welcome from "./WelcomeScreen";
 import Login from "./LoginScreen";
@@ -7,7 +7,7 @@ import EditOrderDetails from "./EditOrderDetails";
 import ImportOnOrders from "./ImportOnOrders";
 
 export {
-	TrackingRealtime,
+	SimulateRealtimeTracking,
 	UseHooks,
 	Welcome,
 	Login,

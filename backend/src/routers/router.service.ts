@@ -97,7 +97,12 @@ export class RoutersService {
       );
       return;
     }
-    console.log(router.coords[router.coords.length - 1]);
-    return router.coords[router.coords.length - 1];
+    // console.log(router.coords[router.coords.length - 1]);
+    // console.log(router.times[router.coords.length - 1]);
+    return {
+      coords: router.coords[router.coords.length - 1],
+      time: router.times[router.coords.length - 1],
+      distanceTraveled: router.distanceTraveled,
+    };
   }
 }

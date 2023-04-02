@@ -80,8 +80,11 @@ let RoutersService = class RoutersService {
             console.error('Could not found router for you today, please try login again');
             return;
         }
-        console.log(router.coords[router.coords.length - 1]);
-        return router.coords[router.coords.length - 1];
+        return {
+            coords: router.coords[router.coords.length - 1],
+            time: router.times[router.coords.length - 1],
+            distanceTraveled: router.distanceTraveled,
+        };
     }
 };
 RoutersService = __decorate([

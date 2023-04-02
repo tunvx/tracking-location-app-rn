@@ -35,8 +35,6 @@ let RoutersController = class RoutersController {
     }
     async getLastCoords(req) {
         const { _id } = req.user;
-        console.log('ahaha');
-        console.log(_id);
         return this.routersService.getLastCoordsTodayDeliver(_id);
     }
     async update(request, updateRouterDto) {

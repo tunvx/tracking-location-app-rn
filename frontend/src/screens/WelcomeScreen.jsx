@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 import { Icon } from "react-native-vector-icons/FontAwesome";
 
 import { colors, icons, fontSizes, images, keys } from "../constants";
@@ -33,6 +34,10 @@ function Welcome(props) {
 			isSelected: false,
 		},
 	]);
+
+	useEffect(() => {
+		SecureStore.setItemAsync("isLoggedIn", "false");
+	}, []);
 
 	return (
 		<View style={{ flex: 100 }}>

@@ -76,8 +76,6 @@ export class RoutersController {
   @Get('/get-last-coordinates')
   async getLastCoords(@Req() req) {
     const { _id } = req.user;
-    console.log('ahaha');
-    console.log(_id);
     return this.routersService.getLastCoordsTodayDeliver(_id);
   }
 
