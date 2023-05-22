@@ -28,7 +28,7 @@ function EditOrderDetails(props) {
 		async function fetchData() {
 			if (order.customerId !== null) {
 				await SecureStore.getItemAsync("accessToken").then((accessToken) => {
-					fetch(URL.USER_GET_BY_ID + order.customerId, {
+					fetch(URL.USER_GET_BY_ID + order.customerId._id, {
 						method: "GET",
 						headers: {
 							Accept: "application/json",
@@ -63,7 +63,7 @@ function EditOrderDetails(props) {
 							placeholder="Nhập ..."
 						></TextInput>
 						<TouchableOpacity>
-							<Entypo name="pencil" size={22} color="black" />
+							<Entypo name="pencil" size={22} color={colors.primary} />
 						</TouchableOpacity>
 					</View>
 					<View style={styles.cellMiddleChild}>
@@ -74,7 +74,7 @@ function EditOrderDetails(props) {
 							placeholder="Nhập ..."
 						></TextInput>
 						<TouchableOpacity>
-							<Entypo name="pencil" size={22} color="black" />
+							<Entypo name="pencil" size={22} color={colors.primary_2} />
 						</TouchableOpacity>
 					</View>
 					<View style={styles.cellMiddleChild}>
@@ -85,7 +85,7 @@ function EditOrderDetails(props) {
 							placeholder="Nhập ..."
 						></TextInput>
 						<TouchableOpacity>
-							<Entypo name="pencil" size={22} color="black" />
+							<Entypo name="pencil" size={22} color={colors.primary} />
 						</TouchableOpacity>
 					</View>
 
@@ -111,13 +111,15 @@ function EditOrderDetails(props) {
 							placeholder="Nhập ..."
 						></TextInput>
 						<TouchableOpacity>
-							<Entypo name="pencil" size={22} color="black" />
+							<Entypo name="pencil" size={22} color={colors.primary} />
 						</TouchableOpacity>
 					</View>
 					<View style={styles.cellMiddleChild}>
 						<Text style={styles.textMiddleStyle}>Dự đoán thời gian:</Text>
 						<TextInput
-							defaultValue={"Chưa xác định"}
+							defaultValue={
+								order.predictTime !== "" ? order.predictTime : "Chưa xác định"
+							}
 							style={styles.textInputMiddleStyle}
 							placeholder="Nhập ..."
 							onChangeText={(text) => {
@@ -126,7 +128,7 @@ function EditOrderDetails(props) {
 							}}
 						></TextInput>
 						<TouchableOpacity>
-							<Entypo name="pencil" size={22} color="black" />
+							<Entypo name="pencil" size={22} color={colors.primary} />
 						</TouchableOpacity>
 					</View>
 					<View style={styles.cellMiddleChild}>
@@ -141,7 +143,7 @@ function EditOrderDetails(props) {
 							}}
 						></TextInput>
 						<TouchableOpacity>
-							<Entypo name="pencil" size={22} color="black" />
+							<Entypo name="pencil" size={22} color={colors.primary} />
 						</TouchableOpacity>
 					</View>
 
@@ -157,21 +159,19 @@ function EditOrderDetails(props) {
 								// console.log("Press Save button");
 								await SecureStore.getItemAsync("accessToken").then(
 									(accessToken) => {
-										fetch(
-											URL.ORDER_UPDATE_BY_ID + order._id, // `http://192.168.0.187:3000/orders/update/${order._id}`,
-											{
-												method: "PATCH",
-												headers: {
-													Accept: "application/json",
-													"Content-Type": "application/json",
-													Authorization: "Bearer " + accessToken,
-												},
-												body: JSON.stringify({
-													note: order.note,
-													predictTime: order.predictTime,
-												}),
-											}
-										).then((response) => {
+										console.log(URL.ORDER_UPDATE_BY_ID + order._id);
+										fetch(URL.ORDER_UPDATE_BY_ID + order._id.toString(), {
+											method: "PATCH",
+											headers: {
+												Accept: "application/json",
+												"Content-Type": "application/json",
+												Authorization: "Bearer " + accessToken,
+											},
+											body: JSON.stringify({
+												note: order.note,
+												predictTime: order.predictTime,
+											}),
+										}).then((response) => {
 											if (response.ok) {
 												response.json().then((data) => {
 													// console.log("Return response::");
@@ -184,7 +184,7 @@ function EditOrderDetails(props) {
 								Alert.alert("Đã lưu thông tin sửa đổi");
 							}}
 						>
-							<FontAwesome name="save" size={32} color="black" />
+							<FontAwesome name="save" size={32} color={colors.primary} />
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -209,7 +209,9 @@ function EditOrderDetails(props) {
 							paddingTop: 2,
 						}}
 					>
-						<Text style={{ fontSize: 14 }}>Thông tin trạng thái giao hàng</Text>
+						<Text style={{ fontSize: 15, fontWeight: "600" }}>
+							Thông tin trạng thái giao hàng
+						</Text>
 					</View>
 					<ScrollView style={{ width: "95%" }}>
 						<View style={styles.cellTailChild}>
@@ -260,7 +262,7 @@ function EditOrderDetails(props) {
 const styles = StyleSheet.create({
 	cellHead: {
 		flex: 10,
-		backgroundColor: "rgb(173, 216, 230)",
+		backgroundColor: colors.primary_1,
 		alignItems: "center",
 		justifyContent: "center",
 	},
@@ -281,7 +283,7 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 	},
 
-	textTitleStyle: { fontSize: fontSizes.h1 },
+	textTitleStyle: { fontSize: fontSizes.h1, color: colors.primary },
 
 	cellMiddleChild: {
 		marginVertical: 5,

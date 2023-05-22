@@ -11,9 +11,13 @@ import {
 	PermissionsAndroid,
 	TextInput,
 	KeyboardAvoidingView,
+	ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import ShortInfoOrder from "../components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Dimensions } from "react-native";
+import { FocusScrollView } from "react-native-focus-scroll";
 import MapView, {
 	Marker,
 	AnimatedRegion,
@@ -22,6 +26,7 @@ import MapView, {
 	Callout,
 } from "react-native-maps";
 import * as Location from "expo-location";
+import * as SecureStore from "expo-secure-store";
 import haversine from "haversine";
 import {
 	MaterialIcons,
@@ -29,11 +34,15 @@ import {
 	AntDesign,
 } from "@expo/vector-icons";
 
-import { colors, fontSizes, icons, mockdata } from "../constants";
+import { colors, fontSizes, icons, images, mockdata, URL } from "../constants";
 import { DriverToolBar } from "../components";
+import { getShortAddress } from "../utilies/backup";
 
-function MapOnOrders(props) {
+function VisualizeOrdersOnMap(props) {
 	const navigation = useNavigation();
+
+	const screenWidth = Dimensions.get("window").width;
+	const screenHeigh = Dimensions.get("window").height;
 
 	const platform = Platform.OS.toString();
 
@@ -65,36 +74,144 @@ function MapOnOrders(props) {
 		name: "gps-fixed",
 	});
 
-	// Fetch/GET data from api
-	useEffect(() => {
-		// setOrdersAreBeingDelivered(mockdata.onOrdersData);
-		// console.log(props.route.params);
-		// let o = ordersAreBeingDelivered[0];
-		// console.log(o);
-		// console.log("asdjfhkasjdhfkja");
-		// console.log(Location.geocodeAsync(o.address));
-	}, []);
+	const [dataSourceCords, setDataSourceCords] = useState([]);
+	const [ref, setRef] = useState(null);
 
-	{
-		/*
-		*** Sự kiện diễn ra khi nhấn vào marker
-			+ Ẩn đi bàn phím
-			+ Hiển thị chú thích
+	const scrollHandler = (scrollToIndex) => {
+		// console.log(dataSourceCords.length, scrollToIndex);
+		if (scrollToIndex < dataSourceCords.length) {
+			ref.scrollTo({
+				x: dataSourceCords[scrollToIndex],
+				y: 0,
+				animated: true,
+			});
+		} else {
+			alert("Out of Max Index");
+		}
+	};
 
-		*** Sự kiện diễn ra khi nhấn vào chú thích
-			+ Cho bàn phím nổi lên
-			+ Hiển thị ô text để nhập chú thích của bạn
+	const ItemView = (order) => {
+		return (
+			<View
+				key={ordersAreBeingDelivered.indexOf(order)}
+				style={{
+					backgroundColor: "white",
+					width: screenWidth - 20,
+					height: "100%",
+					borderRadius: 10,
+					flexDirection: "row",
+					justifyContent: "center",
+					marginHorizontal: 5,
+				}}
+				onLayout={(event) => {
+					const layout = event.nativeEvent.layout;
+					dataSourceCords[ordersAreBeingDelivered.indexOf(order)] = layout.x;
+					setDataSourceCords(dataSourceCords);
+					// console.log(layout.x);
+					// console.log(layout.y);
+				}}
+			>
+				<View
+					style={{
+						width: "38%",
+						backgroundColor: "transparent",
+						alignItems: "center",
+						justifyContent: "center",
+					}}
+				>
+					<Image
+						source={images.address_1}
+						style={{
+							height: "96%",
+							width: "96%",
+						}}
+						resizeMode={"cover"}
+					/>
+				</View>
+				<View
+					style={{
+						width: "58%",
+						backgroundColor: "transparent",
+						flexDirection: "column",
+					}}
+				>
+					<View style={{ flexDirection: "row", height: 65 }}>
+						<View style={{ backgroundColor: "transparent", width: "70%" }}>
+							<Text
+								style={{
+									fontSize: fontSizes.h6,
+									fontWeight: "450",
+									marginHorizontal: 4,
+									paddingVertical: 2,
+								}}
+							>
+								{"K/H: " + order.customerId.name}
+							</Text>
+							<Text
+								style={{
+									fontSize: fontSizes.h6,
+									marginHorizontal: 4,
+									paddingVertical: 2,
+									fontWeight: "450",
+								}}
+							>
+								{order.productName}
+							</Text>
+							<Text
+								style={{
+									fontSize: fontSizes.h6,
+									marginHorizontal: 4,
+									paddingVertical: 2,
+								}}
+							>
+								{"....................................."}
+							</Text>
+						</View>
+						<View style={{ backgroundColor: "transparent", width: "30%" }}>
+							<Image
+								source={images.order}
+								style={{
+									marginTop: 3,
+									height: "90%",
+									width: "96%",
+								}}
+								resizeMode={"cover"}
+							></Image>
+						</View>
+					</View>
+					<Text
+						style={{
+							fontSize: fontSizes.h3,
+							color: colors.primary_red,
+							fontWeight: "600",
+							marginLeft: 6,
+							marginTop: 5,
+							marginBottom: 6,
+						}}
+					>
+						{"Thành tiền: " +
+							order.price.toLocaleString("vi", {
+								style: "currency",
+								currency: "VND",
+							})}
+					</Text>
 
-		********************************
-		QUY TRÌNH NGHIỆP VỤ KINH DOANH CÓ THỂ:
-			- Bản đồ hiển thị vị trí đánh dấu các đơn hàng.
-			- Nhấn vào điểm đánh dấu (đơn hàng) để hiển thị ra chú thích của đơn hàng đó.
-			- Nhấn vào chú thích, sẽ hiển thị 3 buttom: 	
-				+ Button 1: Nhấp để vào trạng thái ghi chú thích.
-				+ Button 2: Nhấp để thoát trạng thái ghi chú thích.
-				+ Button 3: Nhấp để đi đến màn hình chỉnh sửa chi tiết đơn hàng.
-		*/
-	}
+					<Text
+						style={{
+							fontSize: fontSizes.h6,
+							fontWeight: "500",
+							color: colors.locate,
+							marginLeft: 6,
+							paddingVertical: 1,
+							marginTop: 4,
+						}}
+					>
+						{"Đc: " + order.address}
+					</Text>
+				</View>
+			</View>
+		);
+	};
 
 	if (ordersAreBeingDelivered === undefined) {
 		return <>Still loading...</>;
@@ -122,6 +239,7 @@ function MapOnOrders(props) {
 							onPress={() => {
 								setNote("");
 								setShowInputText(false);
+								scrollHandler(ordersAreBeingDelivered.indexOf(order));
 							}}
 							// step 2 press to title of marker button
 							onCalloutPress={() => {
@@ -129,13 +247,13 @@ function MapOnOrders(props) {
 								setShowInputText(true);
 								setNote(order.note);
 							}}
-							key={order._id}
+							key={ordersAreBeingDelivered.indexOf(order)}
 							coordinate={order.coords}
 							title={
 								// order.note === ""
 								// 	? "Chú thích riêng..., " + order.address
 								// 	: order.note + ", " + order.address
-								order.note + ", " + order.productName
+								order.note === "" ? getShortAddress(order.address) : order.note
 							}
 						>
 							{order.delivered === true ? (
@@ -180,7 +298,7 @@ function MapOnOrders(props) {
 						style={{
 							width: 45,
 							height: 45,
-							backgroundColor: "transparent", // red transparent
+							backgroundColor: "transparent",
 							alignItems: "center",
 							justifyContent: "center",
 							marginRight: 2,
@@ -202,7 +320,7 @@ function MapOnOrders(props) {
 						style={{
 							width: 45,
 							height: 45,
-							backgroundColor: "transparent", // red transparent
+							backgroundColor: "transparent",
 							alignItems: "center",
 							justifyContent: "center",
 							marginRight: 2,
@@ -230,13 +348,35 @@ function MapOnOrders(props) {
 							placeholderTextColor={colors.placeholderColor}
 						></TextInput>
 						<TouchableOpacity // Button used to confirm save notes
-							onPress={() => {
+							onPress={async () => {
 								setOrdersAreBeingDelivered((ordersAreBeingDelivered) =>
 									ordersAreBeingDelivered
 										.filter((order) => order._id !== orderInHand._id)
 										.concat([{ ...orderInHand, note: note }])
 								);
 								// console.log(note);
+								await SecureStore.getItemAsync("accessToken").then(
+									(accessToken) => {
+										fetch(URL.ORDER_UPDATE_BY_ID + orderInHand._id, {
+											method: "PATCH",
+											headers: {
+												Accept: "application/json",
+												"Content-Type": "application/json",
+												Authorization: "Bearer " + accessToken,
+											},
+											body: JSON.stringify({
+												note: note,
+											}),
+										}).then((response) => {
+											if (response.ok) {
+												response.json().then((data) => {
+													// console.log("Return response::");
+													// console.log(data);
+												});
+											}
+										});
+									}
+								);
 								setNote("");
 								setShowInputText(false);
 							}}
@@ -256,6 +396,7 @@ function MapOnOrders(props) {
 						</TouchableOpacity>
 						<TouchableOpacity // Button used to edit order details
 							onPress={() => {
+								console.log(orderInHand);
 								navigation.navigate("EditOrderDetails", { order: orderInHand });
 							}}
 							style={{
@@ -324,6 +465,18 @@ function MapOnOrders(props) {
 						</TouchableOpacity>
 					</View>
 				)}
+				<ScrollView
+					style={styles.viewInfoContainer}
+					horizontal={true}
+					contentContainerStyle={{ justifyContent: "center" }}
+					threshold={100}
+					// disableIntervalMomentum={true}
+					ref={(ref) => {
+						setRef(ref);
+					}}
+				>
+					{ordersAreBeingDelivered.map(ItemView)}
+				</ScrollView>
 			</View>
 			<DriverToolBar />
 		</SafeAreaView>
@@ -360,12 +513,22 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: "row",
 		marginVertical: 20,
-		backgroundColor: colors.textinputBackground,
+		backgroundColor: colors.snow_1,
 		borderColor: colors.primary,
 		paddingVertical: 6,
 		width: "100%",
 		marginTop: "81%",
 	},
+	viewInfoContainer: {
+		marginVertical: 15,
+		backgroundColor: "transparent",
+		borderColor: colors.primary,
+		paddingVertical: 3,
+		paddingHorizontal: 8,
+		width: "100%",
+		height: "15%",
+		marginTop: "120%",
+	},
 });
 
-export default MapOnOrders;
+export default VisualizeOrdersOnMap;

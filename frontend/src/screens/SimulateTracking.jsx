@@ -45,29 +45,26 @@ function SimulateRealtimeTracking(props) {
 	useEffect(() => {
 		// After 1s, recall inner function
 		let posotionInterval = setInterval(async () => {
-			var accessToken;
-			await SecureStore.getItemAsync("accessToken").then((token) => {
-				accessToken = token;
+			await SecureStore.getItemAsync("accessToken").then((accessToken) => {
+				fetch(URL.ROUTER_GET_LAST_COORDS, {
+					method: "GET",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + accessToken,
+					},
+				}).then((response) => {
+					if (response.ok) {
+						response.json().then((data) => {
+							const { coords, time, distanceTraveled } = data;
+							setPrevCroodinate(coords);
+							setDistanceTraveled(distanceTraveled);
+							setRouteCoordinates([coords].concat(routeCoordinates));
+						});
+					}
+				});
 			});
-
-			fetch(URL.ROUTER_GET_LAST_COORDS, {
-				method: "GET",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-					Authorization: "Bearer " + accessToken,
-				},
-			}).then((response) => {
-				if (response.ok) {
-					response.json().then(async (data) => {
-						const { coords, time, distanceTraveled } = data;
-						setPrevCroodinate(coords);
-						setDistanceTraveled(distanceTraveled);
-						setRouteCoordinates([coords].concat(routeCoordinates));
-					});
-				}
-			});
-		}, 2000);
+		}, 1500);
 		return () => clearInterval(posotionInterval);
 	}, [routeCoordinates, distanceTraveled, prevCoordinate]); // ;
 

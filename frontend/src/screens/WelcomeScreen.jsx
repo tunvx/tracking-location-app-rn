@@ -37,6 +37,7 @@ function Welcome(props) {
 
 	useEffect(() => {
 		SecureStore.setItemAsync("isLoggedIn", "false");
+		SecureStore.setItemAsync("account", "unknown");
 	}, []);
 
 	return (
@@ -152,6 +153,24 @@ function Welcome(props) {
 					<TouchableOpacity
 						onPress={() => {
 							setBackgroundLoginButton("white");
+							{
+								accountTypes.find((account) => {
+									if (account.isSelected === true) {
+										if (account.name === "Người dùng")
+											SecureStore.setItemAsync("account", "customer");
+										else if (account.name === "Lái xe công nghệ")
+											SecureStore.setItemAsync("account", "driver");
+										else if (account.name === "Người quản lý")
+											SecureStore.setItemAsync("account", "admin");
+									}
+								});
+							}
+							// SecureStore.setItemAsync(
+							// 	"account",
+							// 	accountTypes.find((account) => {
+							// 		if (account.isSelected === true) return account.name;
+							// 	})
+							// );
 							navigation.navigate("Login");
 						}}
 						style={{

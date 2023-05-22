@@ -61,7 +61,7 @@ function ImportOnOrders(props) {
 					</View>
 					<DataTable
 						style={{
-							backgroundColor: colors.textinputBackground,
+							backgroundColor: "white",
 							overflow: "scroll",
 						}}
 					>
@@ -81,7 +81,7 @@ function ImportOnOrders(props) {
 											<FontAwesome
 												name="product-hunt"
 												size={24}
-												color="black"
+												color={colors.primary}
 											/>
 										</TouchableOpacity>
 									</DataTable.Cell>
@@ -102,7 +102,7 @@ function ImportOnOrders(props) {
 											<MaterialIcons
 												name="delivery-dining"
 												size={24}
-												color="black"
+												color={colors.primary}
 											/>
 										</TouchableOpacity>
 									</DataTable.Cell>
@@ -124,7 +124,7 @@ function ImportOnOrders(props) {
 					</View>
 					<DataTable
 						style={{
-							backgroundColor: colors.textinputBackground,
+							backgroundColor: colors.snow,
 							alignSelf: "baseline",
 							overflow: "scroll",
 						}}
@@ -141,7 +141,11 @@ function ImportOnOrders(props) {
 							{onOrders.map((order) => (
 								<DataTable.Row key={order._id}>
 									<DataTable.Cell>
-										<FontAwesome name="product-hunt" size={24} color="black" />
+										<FontAwesome
+											name="product-hunt"
+											size={24}
+											color={colors.primary}
+										/>
 									</DataTable.Cell>
 									<DataTable.Cell>{order.productName}</DataTable.Cell>
 									<DataTable.Cell>{order.address}</DataTable.Cell>
@@ -157,7 +161,7 @@ function ImportOnOrders(props) {
 												);
 											}}
 										>
-											<AntDesign name="checkcircle" size={24} color="black" />
+											<AntDesign name="checkcircle" size={24} color="green" />
 										</TouchableOpacity>
 									</DataTable.Cell>
 								</DataTable.Row>
@@ -174,7 +178,7 @@ function ImportOnOrders(props) {
 const styles = StyleSheet.create({
 	cellHead: {
 		flex: 10,
-		backgroundColor: "rgb(173, 216, 230)",
+		backgroundColor: colors.primary_1,
 		alignItems: "center",
 		justifyContent: "center",
 	},
@@ -193,9 +197,13 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 
-	textTitleStyle: { fontSize: fontSizes.h1 },
+	textTitleStyle: { fontSize: fontSizes.h1, color: colors.primary_red },
 
-	textInfoStyle: { fontSize: fontSizes.h5, paddingVertical: 5 },
+	textInfoStyle: {
+		fontSize: fontSizes.h5,
+		paddingVertical: 5,
+		color: colors.primary,
+	},
 
 	cellInfoStyle: {
 		backgroundColor: "white",
@@ -206,8 +214,6 @@ const styles = StyleSheet.create({
 	cellContentStyle: {
 		flexDirection: "row",
 	},
-
-	textInfoStyle: { fontSize: fontSizes.h5, paddingVertical: 5 },
 });
 
 export default ImportOnOrders;

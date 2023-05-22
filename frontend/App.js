@@ -11,6 +11,9 @@ import {
 	MapOnOrders,
 	EditOrderDetails,
 	ImportOnOrders,
+	UserCheckOrderInfo,
+	ShowListRoutes,
+	AdminMainScreen,
 } from "./src/screens";
 import * as Location from "expo-location";
 import haversine from "haversine";
@@ -32,7 +35,7 @@ const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 
 // Set minimum distance to update data
-const MIN_DISTANCE = 0.01; // (km)
+const MIN_DISTANCE = 0.00001; // (km)
 
 export default function App() {
 	const [errorMsg, setErrorMsg] = useState(null);
@@ -48,14 +51,20 @@ export default function App() {
 	// Request permission right after starting the app
 	useEffect(() => {
 		// After 1s, recall inner function
-		let posotionInterval = setInterval(async () => {
-			console.log("\n===================== start ========================");
+		let positiveInterval = setInterval(async () => {
+			// console.log("\n===================== start ========================");
 			var isLoggedIn;
 			await SecureStore.getItemAsync("isLoggedIn").then((data) => {
 				isLoggedIn = data;
 			});
-			console.log(`Deliver is logged in: ${isLoggedIn}`);
+			// console.log(`Deliver is logged in: ${isLoggedIn}`);
 			if (isLoggedIn !== "true") return;
+
+			var user;
+			await SecureStore.getItemAsync("account").then((data) => {
+				user = data;
+			});
+			if (user !== "driver") return;
 
 			var accessToken;
 			await SecureStore.getItemAsync("accessToken").then((token) => {
@@ -63,7 +72,7 @@ export default function App() {
 			});
 			// console.log(`Access token: ${accessToken}`);
 			if (accessToken === null || accessToken === undefined) return;
-			console.log(jwt_decode(accessToken));
+			// console.log(jwt_decode(accessToken));
 
 			// Grant location access || foregroundStatus, backgroundStatus
 			let foregroundStatus = await Location.requestForegroundPermissionsAsync();
@@ -83,16 +92,15 @@ export default function App() {
 			let position = await Location.getCurrentPositionAsync();
 			const { latitude, longitude } = position.coords;
 			const newCoords = { latitude, longitude };
-			console.log(newCoords);
 
 			// Calculate distance between new and old coordinates - unit: km
 			let distanceCalculate = calcDistance(newCoords);
-			console.log(`DistanceCalculate: ${distanceCalculate}`);
+			// console.log(`DistanceCalculate: ${distanceCalculate}`);
 			if (distanceTraveled === 0 || distanceCalculate >= MIN_DISTANCE) {
-				// After calculating distance, current coordinate has no value, it's
-				// set all values
+				// set all values if the distance condition is satisfied
 				setPrevCroodinate(newCoords);
 				setDistanceTraveled(distanceTraveled + distanceCalculate);
+				console.log(newCoords);
 				console.log(`DistanceTraveled: ${distanceTraveled}`);
 
 				fetch(URL.ROUTER_UPDATE, {
@@ -116,8 +124,8 @@ export default function App() {
 					}
 				});
 			}
-		}, 2000);
-		return () => clearInterval(posotionInterval);
+		}, 1500);
+		return () => clearInterval(positiveInterval);
 	}, [distanceTraveled, prevCoordinate]);
 
 	return (
@@ -140,10 +148,17 @@ export default function App() {
 				/>
 				<RootStack.Screen name="Welcome" component={Welcome} />
 				<RootStack.Screen name="Login" component={Login} />
+				<RootStack.Screen
+					name="UserCheckOrderInfo"
+					component={UserCheckOrderInfo}
+				/>
+				<RootStack.Screen name="ShowListRoutes" component={ShowListRoutes} />
+				<RootStack.Screen name="AdminMainScreen" component={AdminMainScreen} />
 			</RootStack.Navigator>
 		</NavigationContainer>
 	);
 }
+// AdminMainScreen
 
 const styles = StyleSheet.create({
 	container: {

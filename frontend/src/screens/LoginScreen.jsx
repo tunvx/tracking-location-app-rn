@@ -33,6 +33,8 @@ function Login(props) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const [accountType, setAccountType] = useState("");
+
 	useEffect(() => {
 		Keyboard.addListener("keyboardDidShow", () => {
 			setKeyboardIsShow(true);
@@ -42,6 +44,9 @@ function Login(props) {
 			setKeyboardIsShow(false);
 			// alert("Keyboard did hide");
 		});
+		SecureStore.getItemAsync("account").then(async (accounttype) =>
+			setAccountType(accounttype)
+		);
 	});
 
 	return (
@@ -58,7 +63,7 @@ function Login(props) {
 			>
 				<Text
 					style={{
-						color: "rgba(0,0,0,0.72)",
+						color: colors.primary,
 						fontSize: fontSizes.h1,
 						fontWeight: "bold",
 						width: "35%",
@@ -67,13 +72,9 @@ function Login(props) {
 					Already have an Account?
 				</Text>
 				<Image
-					source={images.computer_logo}
-					style={{
-						// backgroundColor: "red",
-						tintColor: colors.primary,
-						width: 155,
-						height: 155,
-					}}
+					source={images.login_logo}
+					style={{ borderRadius: 12 }}
+					resizeMode={"cover"}
 				/>
 			</View>
 			<View
@@ -170,6 +171,10 @@ function Login(props) {
 				>
 					<TouchableOpacity
 						onPress={() => {
+							if (email.includes(accountType) === false) {
+								Alert.alert("Thông tin tài khoản không tồn tại");
+								return;
+							}
 							fetch(URL.LOGIN, {
 								method: "POST",
 								headers: { "Content-Type": "application/json" },
@@ -187,24 +192,32 @@ function Login(props) {
 										await SecureStore.getItemAsync("accessToken").then(
 											async (token) => {
 												// Create a new router for deliver for today
-												fetch(URL.ROUTER_CREATE, {
-													method: "POST",
-													headers: {
-														Accept: "application/json",
-														"Content-Type": "application/json",
-														Authorization: "Bearer " + token,
-													},
-													body: JSON.stringify({}),
-												}).then((response) => {
-													// console.log(response.json());
-												});
+												if (accountType === "driver") {
+													fetch(URL.ROUTER_CREATE, {
+														method: "POST",
+														headers: {
+															Accept: "application/json",
+															"Content-Type": "application/json",
+															Authorization: "Bearer " + token,
+														},
+														body: JSON.stringify({}),
+													}).then((response) => {
+														// console.log(response.json());
+													});
+												}
 
 												// create router for today before set user
 												await SecureStore.setItemAsync("isLoggedIn", "true");
 											}
 										);
 									});
-									navigation.navigate("ImportOnOrders");
+									if (accountType === "admin") {
+										navigation.navigate("AdminMainScreen");
+									} else if (accountType === "driver") {
+										navigation.navigate("ImportOnOrders");
+									} else if (accountType === "customer") {
+										navigation.navigate("UserCheckOrderInfo");
+									}
 								} else {
 									Alert.alert("Thông tin tài khoản không tồn tại");
 								}
